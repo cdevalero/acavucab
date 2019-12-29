@@ -1,0 +1,50 @@
+body {
+    padding-top: 15px;
+  }
+
+.fa-cog{
+    position: relative;
+    top: 50%;
+    left: 97%;
+    transform: translate(-50%, -50%);
+}
+.container{
+    text-align: center;
+}
+
+.btn{
+    position: relative;
+    display: inline-block;
+    padding-top:-10px;
+    padding-bottom:-10px;
+    margin-top:10px;
+    margin-bottom:15px;
+    max-width: 300px;
+} 
+.btn-lg{
+    position: relative;
+    display: inline-block;
+    padding-top:-10px;
+    padding-bottom:-10px;
+    margin-top:10px;
+    margin-bottom:15px;
+    max-width: 300px;
+} 
+.btn-primary{
+    position: relative;
+    display: inline-block;
+    padding-top:-10px;
+    padding-bottom:-10px;
+    margin-top:10px;
+    margin-bottom:15px;
+    max-width: 300px;
+} 
+.btn-block{
+    position: relative;
+    display: inline-block;
+    padding-top:-10px;
+    padding-bottom:-10px;
+    margin-top:10px;
+    margin-bottom:15px;
+    max-width: 300px;
+}
