@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('admin.sidebar')
+            
 
             <div class="col-md-9">
                 <div class="card">
@@ -27,7 +27,7 @@
                                     <tr>
                                         <th>ID</th><td>{{ $usuario->codigo_usuario }}</td>
                                     </tr>
-                                    <tr><th> Nombre </th><td> {{ $usuario->nombre }} </td></tr><tr><th> Clave </th><td> {{ $usuario->clave }} </td></tr><tr><th> Fk Usuario Rol </th><td> {{ $usuario->fk_usuario_rol }} </td></tr>
+                                    <tr><th> Email </th><td> {{ $usuario->email }} </td></tr><tr><th> password </th><td> {{ $usuario->password }} </td></tr><tr><th> Fk Usuario Rol </th><td> {{ $usuario->fk_usuario_rol }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

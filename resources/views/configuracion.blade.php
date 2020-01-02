@@ -15,8 +15,35 @@
       <h1 class="my-4 font-weight-bolder" style="margin-left:50px; margin-bottom:25px; margin-top:25px;">ACAVUCAB</h1>
     </div>
     <div class="container" style="text-align: right; margin-right:20px; width: 49.8%; margin-bottom:30px;">
-      <button class="btn" style="border-radius:50%; font-size:200%;"><a href="carro" style="color:black;"><i class="fa fa-shopping-cart"></i></a></button>
-    </div>
+    @guest
+        <button>
+          <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+        </button>
+      @if (Route::has('register'))
+        <button>
+          <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+        </button>
+      @endif
+
+      @else
+        <button>
+          <a class="dropdown-item" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+          </a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
+        </button>
+
+    @endguest
+    @if (Auth::user())
+      @if (Auth::user()->permiso('cliente'))
+        <button class="btn" style="border-radius:50%; font-size:200%;"><a href="carro" style="color:black;"><i class="fa fa-shopping-cart"></i></a></button>
+      @endif
+    @endif    </div>
    </div>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -44,9 +71,12 @@
           <li class="nav-item">
             <a class="nav-link" href="nosotros">Nosotros</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link fa fa-cog" href="configuracion"></a>
-          </li>
+          @if (Auth::user())
+            @if (Auth::user()->permiso('cliente'))
+            <li class="nav-item">
+              <a class="nav-link fa fa-cog" href="configuracion"></a>
+            @endif
+          @endif
         </ul>
         <form class="form-inline my-2 my-md-0">
           <input class="form-control" type="text" placeholder="Search">
@@ -55,21 +85,58 @@
     </nav>
 
     <div class="sidebar" style="z-index:10;">
-        <a href="#afiliar"  onclick="changePart('#afiliar');">Afiliar como proveedor</a>
+        @if (Auth::user())
+          @if (Auth::user()->permiso('afiliar_proveedor_configuracion'))
+            <a href="#afiliar"  onclick="changePart('#afiliar');">Afiliar como proveedor</a>
+          @endif
+        @endif
+
         <a href="#presupuesto"  onclick="changePart('#presupuesto');">Solicitar presupuesto</a>
         <a href="#compra"  onclick="changePart('#compra');">Comprar productos</a>
-        <a href="#despacho"  onclick="changePart('#despacho');">Despacho de producto</a>
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('despacho_productos_configuracion'))
+            <a href="#despacho"  onclick="changePart('#despacho');">Despacho de producto</a>
+          @endif
+        @endif
+        
+
         <a href="#facturar"  onclick="changePart('#facturar');">Facturación</a>
         <a href="#evento" onclick="changePart('#evento');">Organizar eventos</a>
         <a href="#cambioClave"  onclick="changePart('#cambioClave');">Cambiar clave</a>
         <a href="#agregarTarjeta"  onclick="changePart('#agregarTarjeta');">Agregar tarjeta</a>
         <a href="#editCatos"  onclick="changePart('#editDatos');">Editar datos</a>
-        <a href="#verCarnet"  onclick="changePart('#verCarnet');">Ver carnet</a>
-        <a href="#adminProd" onclick="changePart('#adminProd');">Manejar productos</a>
-        <a href="#adminEmp" onclick="changePart('#adminEmp');">Manejar empleados</a>
-        <a href="#adminCli" onclick="changePart('#adminCli');">Manejar clientes</a>
-        <a href="#adminMiem" onclick="changePart('#adminMiem');">Manejar miembros</a>
-        <a href="{{ route('presupuesto.index') }}">Manejar presupuesto</a>
+        <a href="#verCarnet"  onclick="changePart('#verCarnet');">Ver carnet</a> 
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('manejar_productos_configuracion'))
+            <a href="#adminProd" onclick="changePart('#adminProd');">Manejar productos</a>
+          @endif
+        @endif
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('manejar_empleados_configuracion'))
+            <a href="#adminEmp" onclick="changePart('#adminEmp');">Manejar empleados</a>
+          @endif
+        @endif
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('manejar_clientes_configuracion'))
+            <a href="#adminCli" onclick="changePart('#adminCli');">Manejar clientes</a>
+          @endif
+        @endif
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('manejar_miembros_configuracion'))
+            <a href="#adminMiem" onclick="changePart('#adminMiem');">Manejar miembros</a>
+          @endif
+        @endif
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('presupuestoCRUD'))
+            <a href="{{ route('presupuesto.index') }}">Manejar presupuesto</a>
+          @endif
+        @endif
     </div>
 
 <div class="content" style="margin-top:10px;">
@@ -559,35 +626,113 @@
     <div id="adminProd" class="content" style="display:none;">
         <h2><b>MANEJAR PRODUCTOS</b></h2>
         <div class="boxed text-center">
-          <p><a href="{{ route('cerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar cervezas</a></p>
-          <p><a href="{{ route('tipocerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar tipos de cervezas</a></p>
-          <p><a href="{{ route('caracteristicas.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar características de cervezas</a></p>
-          <p><a href="{{ route('almacen.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar almacén</a></p>
-          <p><a href="{{ route('anaquel.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar anaqueles</a></p>
-          <p><a href="{{ route('pasillo.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar pasillos</a></p>
-          <p><a href="{{ route('ingrediente.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar ingredientes</a></p>
-          <p><a href="{{ route('pasopreparacion.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar preparación</a></p>
+          @if (Auth::user())
+            @if (Auth::user()->permiso('cervezaCRUD'))
+              <p><a href="{{ route('cerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar cervezas</a></p>
+            @endif
+          @endif
+          @if (Auth::user())
+            @if (Auth::user()->permiso('tipocervezaCRUD'))
+              <p><a href="{{ route('tipocerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar tipos de cervezas</a></p>
+            @endif
+          @endif
+
+          @if (Auth::user())
+            @if (Auth::user()->permiso('caracteristicasCRUD'))
+              <p><a href="{{ route('caracteristicas.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar características de cervezas</a></p>
+            @endif
+          @endif
+          
+          @if (Auth::user())
+            @if (Auth::user()->permiso('almacenCRUD'))
+              <p><a href="{{ route('almacen.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar almacén</a></p>
+            @endif
+          @endif
+
+          @if (Auth::user())
+            @if (Auth::user()->permiso('anaquelCRUD'))
+              <p><a href="{{ route('anaquel.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar anaqueles</a></p>
+            @endif
+          @endif
+
+          @if (Auth::user())
+            @if (Auth::user()->permiso('pasilloCRUD'))
+              <p><a href="{{ route('pasillo.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar pasillos</a></p>
+            @endif
+          @endif
+
+          @if (Auth::user())
+            @if (Auth::user()->permiso('ingredienteCRUD'))
+              <p><a href="{{ route('ingrediente.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar ingredientes</a></p>
+            @endif
+          @endif
+
+          @if (Auth::user())
+            @if (Auth::user()->permiso('pasopreparacionCRUD'))
+            <p><a href="{{ route('pasopreparacion.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar preparación</a></p>
+            @endif
+          @endif
+
         </div>
     </div>
                                       <!-- =============================== MANEJAR EMPLEADOS =============================== -->
     <div id="adminEmp" class="content" style="display:none;">
         <h2><b>MANEJAR EMPLEADOS</b></h2>
         <div class="boxed text-center">
-          <p><a href="{{ route('empleado.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar empleados</a></p>
-          <p><a href="{{ route('horario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar horarios</a></p>
-          <p><a href="{{ route('empleado_horario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar horarios de empleados</a></p>
-          <p><a href="{{ route('empleado_beneficio.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar beneficios de empleados</a></p>
-          <p><a href="{{ route('falta.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar faltas</a></p>
+
+        @if (Auth::user())
+            @if (Auth::user()->permiso('empleadoCRUD'))
+              <p><a href="{{ route('empleado.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar empleados</a></p>
+            @endif
+        @endif
+        @if (Auth::user())
+            @if (Auth::user()->permiso('horarioCRUD'))
+              <p><a href="{{ route('horario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar horarios</a></p>
+            @endif
+        @endif
+        @if (Auth::user())
+            @if (Auth::user()->permiso('empleado_horarioCRUD'))
+              <p><a href="{{ route('empleado_horario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar horarios de empleados</a></p>
+            @endif
+        @endif
+        @if (Auth::user())
+            @if (Auth::user()->permiso('beneficioCRUD'))
+              <p><a href="{{ route('beneficio.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar beneficios</a></p>
+            @endif
+        @endif
+        @if (Auth::user())
+            @if (Auth::user()->permiso('faltaCRUD'))
+              <p><a href="{{ route('falta.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar faltas</a></p>
+            @endif
+        @endif
+
         </div>
     </div>
                                       <!-- =============================== MANEJAR CLIENTES =============================== -->
     <div id="adminCli" class="content" style="display:none;">
         <h2><b>MANEJAR CLIENTES</b></h2>
         <div class="boxed text-center">
-          <p><a href="{{ route('clientenatural.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar clientes naturales</a></p>
-          <p><a href="{{ route('clientejuridico.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar clientes jurídicos</a></p>
-          <p><a href="{{ route('usuario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar usuarios</a></p>
-          <p><a href="{{ route('presupuesto.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar presupuesto</a></p>
+
+          @if (Auth::user())
+              @if (Auth::user()->permiso('clientenaturalCRUD'))
+                <p><a href="{{ route('clientenatural.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar clientes naturales</a></p>
+              @endif
+          @endif
+          @if (Auth::user())
+              @if (Auth::user()->permiso('clinetejuridicoCRUD'))
+                <p><a href="{{ route('clientejuridico.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar clientes jurídicos</a></p>
+              @endif
+          @endif
+          @if (Auth::user())
+              @if (Auth::user()->permiso('usuarioCRUD'))
+                <p><a href="{{ route('usuario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar usuarios</a></p>
+              @endif
+          @endif
+          @if (Auth::user())
+              @if (Auth::user()->permiso('presupuestoCRUD'))
+                <p><a href="{{ route('presupuesto.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar presupuesto</a></p>
+              @endif
+          @endif
         </div>
     </div>
 
@@ -595,10 +740,27 @@
     <div id="adminMiem" class="content" style="display:none;">
         <h2><b>MANEJAR MIEMBROS</b></h2>
         <div class="boxed text-center">
-          <p><a href="{{ route('proveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar miembros proveedores</a></p>
-          <p><a href="{{ route('personacontacto.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar personas de contacto</a></p>
-          <p><a href="{{ route('afiliacionproveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar afiliaciones</a></p>
-          <p><a href="{{ route('proveedor_tipocerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar cervezas producidas por proveedores</a></p>
+
+          @if (Auth::user())
+              @if (Auth::user()->permiso('proveedorCRUD'))
+              <p><a href="{{ route('proveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar miembros proveedores</a></p>
+              @endif
+          @endif
+          @if (Auth::user())
+              @if (Auth::user()->permiso('personacontactoCRUD'))
+              <p><a href="{{ route('personacontacto.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar personas de contacto</a></p>
+              @endif
+          @endif
+          @if (Auth::user())
+              @if (Auth::user()->permiso('afiliacionproveedorCRUD'))
+              <p><a href="{{ route('afiliacionproveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar afiliaciones</a></p>
+              @endif
+          @endif
+          @if (Auth::user())
+              @if (Auth::user()->permiso('proveedor_tipocervezaCRUD'))
+              <p><a href="{{ route('proveedor_tipocerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar cervezas producidas por proveedores</a></p>
+              @endif
+          @endif
         </div>
     </div>
 

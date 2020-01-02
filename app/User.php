@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\rol;
+use App\privilegio;
+use App\rol_privilegio;
 
 class User extends Authenticatable
 {
@@ -16,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password','fk_usuario_rol',
     ];
 
     /**
@@ -33,7 +36,38 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    
+    protected $primaryKey = 'codigo_usuario';
+    protected $table = 'usuario';
+    public $timestamps = false;
+
+    public function permiso($permiso){
+        
+        if ($permiso == "cliente")
+            return true;
+
+        $rol = rol::find($this->fk_usuario_rol);
+
+        if ($rol == null)
+            return false;
+        
+        if ($rol["nombre"] == "administrador")
+            return true;
+
+        $rol = $rol["codigo_rol"];
+
+        $RP = rol_privilegio::where('fk_rp_rol',$rol)->pluck('fk_rp_privilegio');
+
+        if ($RP == null)
+            return false;
+        
+        foreach ($RP as $rp){
+            $privilegio = privilegio::find($rp);
+            $privilegio = $privilegio["nombre"];
+            if ($privilegio == $permiso)
+                return true;
+        }
+
+        return false;
+    }
 }

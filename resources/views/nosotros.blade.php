@@ -18,7 +18,38 @@
       <h1 class="my-4 font-weight-bolder" style="margin-left:50px; margin-bottom:25px; margin-top:25px;">ACAVUCAB</h1>
     </div>
     <div class="container" style="text-align: right; margin-right:20px; width: 49.8%; margin-bottom:30px;">
-      <button class="btn" style="border-radius:50%; font-size:200%;"><a href="carro" style="color:black;"><i class="fa fa-shopping-cart"></i></a></button>
+    @guest
+        <button>
+          <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+        </button>
+      @if (Route::has('register'))
+        <button>
+          <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+        </button>
+      @endif
+
+      @else
+        <button>
+          <a class="dropdown-item" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+          </a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
+        </button>
+
+    @endguest
+
+    @if (Auth::user())
+      @if (Auth::user()->permiso('cliente'))
+        <button class="btn" style="border-radius:50%; font-size:200%;"><a href="carro" style="color:black;"><i class="fa fa-shopping-cart"></i></a></button>
+      @endif
+    @endif
+
+    
     </div>
    </div>
   <!-- Navigation -->
@@ -47,9 +78,12 @@
           <li class="nav-item">
             <a class="nav-link" href="nosotros">Nosotros</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link fa fa-cog" href="configuracion"></a>
-          </li>
+          @if (Auth::user())
+            @if (Auth::user()->permiso('cliente'))
+            <li class="nav-item">
+              <a class="nav-link fa fa-cog" href="configuracion"></a>
+            @endif
+          @endif
         </ul>
         <form class="form-inline my-2 my-md-0">
           <input class="form-control" type="text" placeholder="Search">

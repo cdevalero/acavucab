@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Hash;
 
-use App\usuario;
+use App\User;
 use Illuminate\Http\Request;
 
 class usuarioController extends Controller
@@ -21,12 +22,12 @@ class usuarioController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $usuario = usuario::where('nombre', 'LIKE', "%$keyword%")
-                ->orWhere('clave', 'LIKE', "%$keyword%")
+            $usuario = User::where('email', 'LIKE', "%$keyword%")
+                ->orWhere('password', 'LIKE', "%$keyword%")
                 ->orWhere('fk_usuario_rol', 'LIKE', "%$keyword%")
                 -> paginate($perPage);
         } else {
-            $usuario = usuario:: paginate($perPage);
+            $usuario = User:: paginate($perPage);
         }
 
         return view('usuario.index', compact('usuario'));
@@ -53,9 +54,12 @@ class usuarioController extends Controller
     {
         
         $requestData = $request->all();
-        
-        usuario::create($requestData);
 
+        User::create([
+            'email' => $requestData['email'],
+            'fk_usuario_rol' => $requestData['fk_usuario_rol'],
+            'password' => Hash::make($requestData['password']), 
+        ]);
         return redirect('usuario')->with('flash_message', 'usuario added!');
     }
 
@@ -68,7 +72,7 @@ class usuarioController extends Controller
      */
     public function show($id)
     {
-        $usuario = usuario::findOrFail($id);
+        $usuario = User::findOrFail($id);
 
         return view('usuario.show', compact('usuario'));
     }
@@ -82,7 +86,7 @@ class usuarioController extends Controller
      */
     public function edit($id)
     {
-        $usuario = usuario::findOrFail($id);
+        $usuario = User::findOrFail($id);
 
         return view('usuario.edit', compact('usuario'));
     }
@@ -100,8 +104,12 @@ class usuarioController extends Controller
         
         $requestData = $request->all();
         
-        $usuario = usuario::findOrFail($id);
-        $usuario->update($requestData);
+        $usuario = User::findOrFail($id);
+        $usuario->update([
+            'email' => $requestData['email'],
+            'fk_usuario_rol' => $requestData['fk_usuario_rol'],
+            'password' => Hash::make($requestData['password']), 
+        ]);
 
         return redirect('usuario')->with('flash_message', 'usuario updated!');
     }
@@ -115,7 +123,7 @@ class usuarioController extends Controller
      */
     public function destroy($id)
     {
-        usuario::destroy($id);
+        User::destroy($id);
 
         return redirect('usuario')->with('flash_message', 'usuario deleted!');
     }

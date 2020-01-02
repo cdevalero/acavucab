@@ -8,7 +8,7 @@ CREATE TABLE rol(
 
 CREATE TABLE privilegio (
     codigo_privilegio                   SERIAL,
-    nombre                              VARCHAR(20) NOT NULL,
+    nombre                              VARCHAR(50) NOT NULL,
     
     
     CONSTRAINT PK_privilegio PRIMARY KEY (codigo_privilegio)
@@ -247,9 +247,10 @@ CREATE TABLE cheque (
 
 CREATE TABLE usuario(
     codigo_usuario                      SERIAL,
-    nombre                              VARCHAR(20) NOT NULL,
-    clave                               VARCHAR(20) NOT NULL,
-    FK_usuario_rol                      INTEGER NOT NULL,
+    email                               VARCHAR(50) NOT NULL,
+    password                            VARCHAR(255) NOT NULL,
+    remember_token                      VARCHAR(255),
+    FK_usuario_rol                      INTEGER,
     
     
     CONSTRAINT PK_usuario PRIMARY KEY (codigo_usuario),
@@ -767,6 +768,13 @@ CREATE TABLE pagoTienda (
     CONSTRAINT FK_pt_pagoTienda_puntoVenta FOREIGN KEY (FK_pagoTienda_puntoVenta) REFERENCES puntoVenta(codigo_puntoVenta)ON DELETE CASCADE
 );
 
+/*ESTA EXTENSION SOLO SE DEBE CREAR UNA VEZ, SI YA SE CREO NO SE CARGA CON LAS TABLAS*/
+
+
+CREATE EXTENSION pgcrypto; /*IMPORTANTE*/
+
+
+/*ESTA EXTENSION SOLO SE DEBE CREAR UNA VEZ, SI YA SE CREO NO SE CARGA CON LAS TABLAS*/
 
 
 

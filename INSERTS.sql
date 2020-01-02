@@ -1371,18 +1371,87 @@ INSERT INTO Lugar (nombre,tipo,FK_lugar_lugar) VALUES
 ));
 
 INSERT INTO rol(nombre) VALUES 
-('Cliente'),
-('Visitante'),
-('Administrador'),
-('Jefde pasillo'),
-('Jefe de almacen');
+('administrador'),
+('cliente'),
+('gerente'),
+('cajero'),
+('despacho');
 
 INSERT INTO privilegio(nombre) VALUES
-('Completo'),
-('parcial'),
-('Compuesto'),
-('Unico'),
-('multiple');
+('cliente'),
+('afiliar_proveedor_configuracion'), 
+('despacho_productos_configuracion'), 
+('manejar_productos_configuracion'), 
+('manejar_empleados_configuracion'), 
+('manejar_clientes_configuracion'),
+('manejar_miembros_configuracion'), 
+('manejar_otros_CRUD'),
+('lugarCRUD'),
+('proveedorCRUD'),
+('eventoCRUD'),
+('actividadCRUD'),
+('entradaCRUD'),
+('evento_proveedorCRUD'),
+('usuarioCRUD'),
+('clinetejuridicoCRUD'),
+('clientenaturalCRUD'),
+('telefonoCRUD'),
+('emailCRUD'),
+('personacontactoCRUD'),
+('afiliacionproveedorCRUD'),
+('almacenCRUD'),
+('anaquelCRUD'),
+('pasilloCRUD'),
+('cervezaCRUD'),
+('tipocervezaCRUD'),
+('horarioCRUD'),
+('tiendaCRUD'),
+('puntovalorCRUD'),
+('beneficioCRUD'),
+('vacacionCRUD'),
+('privilegioCRUD'),
+('rolCRUD'),
+('rol_privilegioCRUD'),
+('efectivoCRUD'),
+('bancoCRUD'),
+('tarjetadebitoCRUD'),
+('tarjetacreditoCRUD'),
+('chequeCRUD'),
+('transferenciaCRUD'),
+('monedaextranjeraCRUD'),
+('revista_cervezaCRUD'),
+('pagowebCRUD'),
+('pagoweb_puntoventaCRUD'),
+('ingredienteCRUD'),
+('caracteristicasCRUD'),
+('tasacambiariaCRUD'),
+('tasa_monedaextranjeraCRUD'),
+('punto_puntovalorCRUD'),
+('tipocerveza_ingredienteCRUD'),
+('revistaCRUD'),
+('ventaCRUD'),
+('puntocompraCRUD'),
+('detalleventaCRUD'),
+('cargoCRUD'),
+('empleadoCRUD'),
+('empleado_horarioCRUD'),
+('compraCRUD'),
+('detalle_compraCRUD'),
+('pagotiendaCRUD'),
+('inventarioarticuloCRUD'),
+('presupuestoCRUD'),
+('estatus_conexCRUD'),
+('estatusCRUD'),
+('inventariocervezaCRUD'),
+('comntarioCRUD'),
+('puntoventaCRUD'),
+('afiliacion_estatuspagoCRUD'),
+('estatuspagoCRUD'),
+('empleado_beneficioCRUD'),
+('faltaCRUD'),
+('pasopreparacionCRUD'),
+('proveedor_tipocervezaCRUD'),
+('imagencervezaCRUD');
 
 INSERT INTO actividad(nombre,tipo,fecha_actividad,descripcion) VALUES
 ('Conversatorio sobre las cervezas','Conversatorio','18/11/2019 02:22:25','Debatir cuales son las cervezas mas vendidas y porque'),
@@ -1627,12 +1696,12 @@ INSERT INTO pagoWeb(monto_total,FK_pagoWeb_tarjetaCredito,FK_pagoWeb_tarjetaDebi
 (100000,4,null),
 (400000,null,5);
 
-INSERT INTO usuario(nombre,clave,FK_usuario_rol) VALUES 
-('diegoard','Isapreciosa*20',1),
-('Morecori','popeyeelmarino24',2),
-('Juilmer11','ratoperez64',3),
-('zulay66','Gato_volador*10',4),
-('ramon30','rmkdfgd*/63',5);
+INSERT INTO usuario(email,password,remember_token,FK_usuario_rol) VALUES 
+('diego@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
+('carlos@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
+('miguel@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
+('cliente@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('gerente@mail.com',crypt('1234', gen_salt('bf', 8)),null,3);
 
 INSERT INTO tienda(rif,nombre,FK_tienda_lugar) VALUES 
 ('7A5DV21VA0QL63A','Los duros de ACAVUCAV',25),
@@ -1712,11 +1781,14 @@ INSERT INTO personaContacto(nombre,apellido,FK_personaContacto_clienteJuridico,F
 ('Henry','Perez',5,5);
 
 INSERT INTO rol_privilegio(FK_rp_rol,FK_rp_privilegio) VALUES
-(1,1),
-(2,2),
-(3,3),
-(4,4),
-(5,5);
+(2,1),
+(3,5),
+(3,56),
+(3,27),
+(3,57),
+(3,30),
+(3,71);
+
 
 INSERT INTO tasa_monedaExtranjera(FK_tm_tasaCambiaria,FK_tm_monedaExtranjera) VALUES
 (1,1),
