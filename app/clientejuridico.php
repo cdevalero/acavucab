@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class clientejuridico extends Model
 {
-    /**
+    /** 
      * The database table used by the model.
      *
      * @var string

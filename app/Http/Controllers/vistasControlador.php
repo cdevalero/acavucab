@@ -254,9 +254,10 @@ class vistasControlador extends Controller{
         return NULL;
     }
 
-    public function afiliacionmanual(Request $objeto){
-        //dd($objeto->all());
-        return view('error');
+    public function cambiclave(Request $objeto){
+        if ($objeto['claveN'] <> $objeto['claveN2'])
+            return redirect()->back();
+        return redirect('main');
     }
     
 }

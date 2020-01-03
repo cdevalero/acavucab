@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use App\rol;
 use App\privilegio;
 use App\rol_privilegio;
+use App\clientenatural as natural;
+use App\clientejuridico as juridico;
 
 class User extends Authenticatable
 {
@@ -69,5 +71,43 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    public function cliente(){
+        $clienteN = natural::where('fk_clientenatural_usuario',$this->codigo_usuario)->first();
+        $clienteJ = juridico::where('fk_clientejuridico_usuario',$this->codigo_usuario)->first();
+        if (($clienteN == null) and ($clienteJ == null))
+            return false;
+        return true;
+    }
+
+    public function nombre(){
+        $cliente = natural::where('fk_clientenatural_usuario',$this->codigo_usuario)->first();
+
+        if ($cliente == null){
+            $cliente = juridico::where('fk_clientejuridico_usuario',$this->codigo_usuario)->first();
+            return ($cliente["razon_social"]);
+        }   
+        return $cliente["nombre"]; 
+    }
+
+    public function numero(){
+        $cliente = natural::where('fk_clientenatural_usuario',$this->codigo_usuario)->first();
+
+        if ($cliente == null){
+            $cliente = juridico::where('fk_clientejuridico_usuario',$this->codigo_usuario)->first();
+            return $cliente["rif"];
+        }   
+        return $cliente["cedula"]; 
+    }
+
+    public function codigo(){
+        $cliente = natural::where('fk_clientenatural_usuario',$this->codigo_usuario)->first();
+
+        if ($cliente == null){
+            $cliente = juridico::where('fk_clientejuridico_usuario',$this->codigo_usuario)->first();
+            return $cliente["numero_carnet"];
+        }   
+        return $cliente["numerocarnet"]; 
     }
 }

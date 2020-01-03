@@ -106,7 +106,12 @@
         <a href="#cambioClave"  onclick="changePart('#cambioClave');">Cambiar clave</a>
         <a href="#agregarTarjeta"  onclick="changePart('#agregarTarjeta');">Agregar tarjeta</a>
         <a href="#editCatos"  onclick="changePart('#editDatos');">Editar datos</a>
-        <a href="#verCarnet"  onclick="changePart('#verCarnet');">Ver carnet</a> 
+
+        @if (Auth::user())
+          @if (Auth::user()->permiso('afiliado'))
+            <a href="#verCarnet"  onclick="changePart('#verCarnet');">Ver carnet</a> 
+          @endif
+        @endif
 
         @if (Auth::user())
           @if (Auth::user()->permiso('manejar_productos_configuracion'))
@@ -351,23 +356,15 @@
     <div id="cambioClave" class="content" style="display:none;">
         <h2><b>CAMBIO DE CLAVE</b></h2>
         <div class="container" style="margin-top:30px; text-align:center; inline-block;">
-          <form action="" method="POST">
-            <p style="margin-bottom:10px;"><b>Introduzca su clave actual</b></p>
-            <input id="claveActual" name="" class="form-control" placeholder="Clave actual" type="password" maxlength="20" required>
-            <button class="btn btn-lg btn-primary" type="button" style="max-width:250px; margin-top:10px;" onclick="show('claveNueva', 'claveActual')">Continuar</button>
-          </form>
-        </div>
 
-        <br>
-        <hr>
-        <br>
-
-        <div id="claveNueva" class="container" style="margin-top:30px; text-align:center; inline-block; display:none;">
-          <form action="" method="POST">
-            <p style="margin-bottom:10px;"><b>Introduzca su clave nueva</b></p>
-            <input name="" class="form-control" placeholder="Clave nueva" type="password" maxlength="20" required>
-            <p style="margin-bottom:10px;"><b>Confirmación de clave nueva</b></p>
-            <input name="" class="form-control" placeholder="Confirme su clave" type="password" maxlength="20" required>
+          <form action="cambioclave" method="POST"> 
+            @csrf
+            <br>
+            <input id="claveActual" name="claveV" class="form-control" placeholder="Clave actual" type="password" maxlength="20" required>
+            <br>
+            <input name="claveN" class="form-control" placeholder="Clave nueva" type="password" minlength="4" maxlength="20" required>
+            <br>
+            <input name="claveN2" min class="form-control" placeholder="Confirme su clave" type="password" minlength="4" maxlength="20" required>
             <button class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px;">Cambiar clave</button>
           </form>
 
@@ -619,8 +616,14 @@
 
                                       <!-- =============================== VER CARNET =============================== -->
     <div id="verCarnet" class="content" style="display:none;">
-        <h2><b>VER CARNET</b></h2>
-          <p>Placeholder</p>
+        <h2><b>CARNET</b></h2>
+        <br>
+            @if (Auth::user()->cliente())
+              <h6>Cod. Carnet: {{Auth::user()->codigo()}}</h6>
+              <h4>{{Auth::user()->nombre()}}</h4>
+              <h6>{{Auth::user()->numero()}}</h6>
+              {!!QrCode::size(300)->generate(Auth::user()->numero()) !!}
+            @endif 
     </div>
                                       <!-- =============================== MANEJAR PRODUCTOS =============================== -->
     <div id="adminProd" class="content" style="display:none;">
@@ -770,7 +773,7 @@
     <!-- Footer -->
   <footer class="py-5 bg-dark" style="z-index:1000;">
     <div class="container">
-      <p class="m-0 text-center text-white">&copy; ACAVUCAB 2019</p>
+      <p class="m-0 text-center text-white">&copy; ACAVUCAB 2020</p>
     </div>
     <!-- /.container -->
   </footer>

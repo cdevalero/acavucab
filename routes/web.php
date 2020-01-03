@@ -23,7 +23,7 @@ Route::get('/public/caracteristicas/eventos', function () {
 
 Route::get('registrar', function () {
     return view('login.registrar');
-});
+}); 
 Route::get('olvido', function () {
     return view('login.olvido');
 });
@@ -47,6 +47,8 @@ Route::get('clickevento', function () {
 Route::get('cajera', function () {
     return view('cajera');
 });
+
+Route::post('cambioclave','vistasControlador@cambiclave'); 
 
 
 Route::get('evento{id}','vistasControlador@eventoMostrar');

@@ -247,7 +247,7 @@ CREATE TABLE cheque (
 
 CREATE TABLE usuario(
     codigo_usuario                      SERIAL,
-    email                               VARCHAR(50) NOT NULL,
+    email                               VARCHAR(50) NOT NULL UNIQUE,
     password                            VARCHAR(255) NOT NULL,
     remember_token                      VARCHAR(255),
     FK_usuario_rol                      INTEGER,
@@ -343,12 +343,12 @@ CREATE TABLE pagoWeb(
 CREATE TABLE clienteNatural(
     codigo_clienteNatural               SERIAL,
     rif                                 VARCHAR(30) NOT NULL,
-    numeroCarnet                        INTEGER NOT NULL,
+    numeroCarnet                        INTEGER UNIQUE,
     nombre                              VARCHAR(30) NOT NULL,
     apellido                            VARCHAR(30) NOT NULL,
-    cedula                              INTEGER NOT NULL,
+    cedula                              INTEGER NOT NULL UNIQUE,
     FK_clienteNatural_lugar             INTEGER NOT NULL,
-    FK_clienteNatural_usuario           INTEGER NOT NULL,
+    FK_clienteNatural_usuario           INTEGER NOT NULL UNIQUE,
     
     
     CONSTRAINT PK_clienteNatural PRIMARY KEY (codigo_clienteNatural),
@@ -359,14 +359,14 @@ CREATE TABLE clienteNatural(
 
 CREATE TABLE clienteJuridico(
     codigo_clienteJuridico              SERIAL,
-    rif                                 VARCHAR(30) NOT NULL,
+    rif                                 VARCHAR(30) NOT NULL UNIQUE,
     denominacion_comercial              VARCHAR(80) NOT NULL,
-    numero_carnet                       INTEGER NOT NULL,
+    numero_carnet                       INTEGER NOT NULL UNIQUE,
     razon_social                        VARCHAR(80) NOT NULL,
     capital_disponible                  INTEGER NOT NULL,
     FK_clienteJuridicofisico_lugar      INTEGER NOT NULL,
     FK_clienteJuridicofiscal_lugar      INTEGER NOT NULL,
-    FK_clienteJuridico_usuario          INTEGER NOT NULL,
+    FK_clienteJuridico_usuario          INTEGER NOT NULL UNIQUE,
     
     
     CONSTRAINT PK_clienteJuridico PRIMARY KEY (codigo_clienteJuridico),
@@ -499,8 +499,8 @@ CREATE TABLE empleado (
     codigo_empleado                     SERIAL,
     nombre                              VARCHAR(20) NOT NULL,
     apellido                            VARCHAR(20) NOT NULL,
-    cedula                              VARCHAR(8) NOT NULL,
-    FK_empleado_usuario                 INTEGER NOT NULL,
+    cedula                              VARCHAR(8) NOT NULL UNIQUE,
+    FK_empleado_usuario                 INTEGER NOT NULL UNIQUE,
     FK_empleado_tienda                  INTEGER NOT NULL,
     FK_empleado_cargo                   INTEGER NOT NULL,
     

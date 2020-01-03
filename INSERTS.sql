@@ -1451,7 +1451,8 @@ INSERT INTO privilegio(nombre) VALUES
 ('faltaCRUD'),
 ('pasopreparacionCRUD'),
 ('proveedor_tipocervezaCRUD'),
-('imagencervezaCRUD');
+('imagencervezaCRUD'),
+('afiliado');
 
 INSERT INTO actividad(nombre,tipo,fecha_actividad,descripcion) VALUES
 ('Conversatorio sobre las cervezas','Conversatorio','18/11/2019 02:22:25','Debatir cuales son las cervezas mas vendidas y porque'),
@@ -1700,15 +1701,21 @@ INSERT INTO usuario(email,password,remember_token,FK_usuario_rol) VALUES
 ('diego@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
 ('carlos@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
 ('miguel@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
-('cliente@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente1@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente2@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente3@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente4@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente5@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente6@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente7@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
+('empleado1@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
+('empleado2@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
+('empleado3@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
+('empleado4@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
 ('gerente@mail.com',crypt('1234', gen_salt('bf', 8)),null,3);
 
 INSERT INTO tienda(rif,nombre,FK_tienda_lugar) VALUES 
-('7A5DV21VA0QL63A','Los duros de ACAVUCAV',25),
-('G545gs5ad5D493A','Bodegon la pesquera',26),
-('5D9W9X5E21VA0QL','Licoreria La Paz',27),
-('ASF4A45F4AS5A6C','Supremacy club',28),
-('5S5DAS0Y4NQL63A','social media beer',29);
+('5S5DAS33Y4NQL63A','social media beer',29);
 
 INSERT INTO cargo(nombre) VALUES 
 ('Jefe de cajeros'),
@@ -1718,11 +1725,11 @@ INSERT INTO cargo(nombre) VALUES
 ('Supervisor');
 
 INSERT INTO empleado(nombre,apellido,cedula,FK_empleado_usuario,FK_empleado_tienda,FK_empleado_cargo) VALUES 
-('Diego','Rojas','26111750',1,1,1),
-('Eylin','Diaz','26111750',2,2,2),
-('Victoria','Diaz','26111750',3,3,3),
-('Salvador','Perez','26111750',4,4,4),
-('Alberto','Gonzalez','26111750',5,5,5);
+('Juancho','Diaz','26176550',11,1,1),
+('Eylin','Diaz','26345450',12,1,2),
+('Victoria','Diaz','25455750',13,1,3),
+('Salvador','Perez','26009850',14,1,4),
+('Alberto','Gonzalez','26166650',15,1,5);
 
 INSERT INTO almacen(total_stock,FK_almacen_empleado) VALUES 
 (1000,1),
@@ -1746,18 +1753,18 @@ INSERT INTO anaquel(cantidad_productos,FK_anaquel_pasillo)VALUES
 (99,5);
 
 INSERT INTO clienteJuridico(rif,denominacion_comercial,numero_carnet,razon_social,capital_disponible,FK_clienteJuridicofisico_lugar,FK_clienteJuridicofiscal_lugar,FK_clienteJuridico_usuario) VALUES
-('7A5DV21VA0QL63A','Supermercado los Ancestros',2,'Hermanos Diaz y Gonzales.',10000000,25,25,1),
-('G545gs5ad5D493A','compañia Gonazales',2,'Hermanos  Gonzales',50000000,25,25,4),
-('5D9W9X5E21VA0QL','licorereria las torres',2,'Hermanos Diaz',90000000,26,26,2),
-('ASF4A45F4AS5A6C','licoreria el fogon',2,'aranceles del fogon.',10000000,27,27,3),
-('5S5DAS0Y4NQL63A','Bodegon las extrellas',2,'extrellas venezuela.',70000000,28,28,5);
+('7A5DV21HA0QL63A','Hipermecado Nacional',1991,'Valero',19999999,25,24,2),
+('G5F5gs5ad5D493A','compañia Gonazales',1236467,'Hermanos  Gonzales',50000000,25,25,4),
+('5D9W9XKE21VA0QL','licorereria las torres',7532,'Hermanos Diaz',90000000,26,26,6),
+('ASF4A45F4LS5A6C','licoreria el fogon',984721,'aranceles del fogon.',10000000,27,27,8),
+('5STDAS0Y4NQL63A','Bodegon las extrellas',9876358,'extrellas venezuela.',70000000,28,28,10);
 
 INSERT INTO clienteNatural(rif,numeroCarnet,nombre,apellido,cedula,FK_clienteNatural_lugar,FK_clienteNatural_usuario) VALUES
-('5S5DAS0Y4NQL63A',1,'Alejandro','Gonzales',18031742,25,1),
-('ASF4A45F4AS5A6C',2,'Miguel','Tovar',20764200,25,2),
-('5D9W9X5E21VA0QL',3,'Thayris','Gonzales',10267347,25,3),
-('7A5DV21VA0QL63A',4,'Rebeca','Perez',193014,25,4),
-('H6F2C44M3Y9L40A',5,'Rabindra','Harichand',18031742,25,5);
+('5S5DAS0Y4N7L63A',24,'Diego','Rojas',18035742,25,1),
+('ASF4A45F4A95A6C',456,'Miguel','Yang',20764250,25,3),
+('5D9W9X5E21V30QL',2345,'Thayris','Gonzales',10267547,25,5),
+('7A5DV51VA0QL63A',14532,'Rebeca','Perez',133014,25,7),
+('H6F2C12M3Y9L40A',15673,'Rabindra','Harichand',18031542,25,9);
 
 INSERT INTO presupuesto(fecha_presupuesto,totalPresupuesto,FK_presupuesto_clienteNatural, FK_presupuesto_clienteJuridico) VALUES
 ('11/11/2019',1600000,Null,1),
@@ -1787,6 +1794,7 @@ INSERT INTO rol_privilegio(FK_rp_rol,FK_rp_privilegio) VALUES
 (3,27),
 (3,57),
 (3,30),
+(4,3),
 (3,71);
 
 
