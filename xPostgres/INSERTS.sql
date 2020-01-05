@@ -1452,7 +1452,20 @@ INSERT INTO privilegio(nombre) VALUES
 ('pasopreparacionCRUD'),
 ('proveedor_tipocervezaCRUD'),
 ('imagencervezaCRUD'),
-('afiliado');
+('afiliado'),
+('supervisor'),
+('diarioReporteView'),
+('empleados_faltasView'),
+('fichaProveedoresView'),
+('movinventariosView'),
+('ordenesView'),
+('tipoMasVendidoView'),
+('top5cervezasView'),
+('top10cervezasView'),
+('top10clientesView'),
+('ordenesFacturasView'),
+('asistenciaView'),
+('totalpuntosView');
 
 INSERT INTO actividad(nombre,tipo,fecha_actividad,descripcion) VALUES
 ('Conversatorio sobre las cervezas','Conversatorio','18/11/2019 02:22:25','Debatir cuales son las cervezas mas vendidas y porque'),
@@ -1795,6 +1808,8 @@ INSERT INTO rol_privilegio(FK_rp_rol,FK_rp_privilegio) VALUES
 (3,57),
 (3,30),
 (4,3),
+(3,76),
+(3,78),
 (3,71);
 
 

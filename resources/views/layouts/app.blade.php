@@ -63,10 +63,10 @@
       <div class="collapse navbar-collapse" id="navbarsExample04">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Inicio</a>
+            <a class="nav-link" href="main">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/">Productos</a>
+            <a class="nav-link" href="main">Productos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="eventos">Eventos</a>
@@ -81,12 +81,22 @@
             <a class="nav-link" href="nosotros">Nosotros</a>
           </li>
           <li class="nav-item">
-          @if (Auth::user())
-            @if (Auth::user()->permiso('cliente'))
-            <li class="nav-item">
-              <a class="nav-link fa fa-cog" href="configuracion"></a>
+            @if (Auth::user())
+              @if (Auth::user()->permiso('cliente'))
+                <li class="nav-item">
+                  <a class="nav-link fa fa-cog" href="configuracion"></a>
+                </li>
+              @endif
             @endif
-          @endif
+          </li>
+          <li class="nav-item">
+            @if (Auth::user())
+              @if (Auth::user()->permiso('supervisor'))
+                <li class="nav-item">
+                  <a class="nav-link fa fa-eye" href="vistas_supervision"></a>
+                </li>
+              @endif
+            @endif
           </li>
         </ul>
         <form class="form-inline my-2 my-md-0">

@@ -48,6 +48,8 @@ Route::get('cajera', function () {
     return view('cajera');
 });
 
+
+
 Route::post('cambioclave','vistasControlador@cambiclave'); 
 
 
@@ -73,6 +75,23 @@ Route::get('carro', function () {
 Route::get('configuracion', function () {
     return view('configuracion');
 });
+
+Route::get('vistas_supervision', function () {
+    return view('vistas_supervision');
+})->middleware('permiso:supervisor');
+
+Route::get('/diarioReporteView', "ReportController@diarioReporteView")->middleware('permiso:diarioReporteView');
+Route::get('/empleados_faltasView', "ReportController@empleados_faltasView")->middleware('permiso:empleados_faltasView');
+Route::get('/fichaProveedoresView', "ReportController@fichaProveedoresView")->middleware('permiso:fichaProveedoresView');
+Route::get('/movinventariosView', "ReportController@movinventariosView")->middleware('permiso:movinventariosView');
+Route::get('/ordenesView', "ReportController@ordenesView")->middleware('permiso:ordenesView');
+Route::get('/tipoMasVendidoView', "ReportController@tipoMasVendidoView")->middleware('permiso:tipoMasVendidoView');
+Route::get('/top5cervezasView', "ReportController@top5cervezasView")->middleware('permiso:top5cervezasView');
+Route::get('/top10cervezasView', "ReportController@top10cervezasView")->middleware('permiso:top10cervezasView');
+Route::get('/top10clientesView', "ReportController@top10clientesView")->middleware('permiso:top10clientesView');
+Route::get('/totalpuntosView', "ReportController@totalpuntosView")->middleware('permiso:totalpuntosView');
+Route::get('/ordenesFacturasView', "ReportController@ordenesFacturasView")->middleware('permiso:ordenesFacturasView');
+Route::get('/asistencia', "ReportController@asistenciaView")->middleware('permiso:asistenciaView');
 
 Route::resource('lugar', 'lugarController')->middleware('permiso:lugarCRUD');
 Route::resource('proveedor', 'proveedorController')->middleware('permiso:proveedorCRUD');

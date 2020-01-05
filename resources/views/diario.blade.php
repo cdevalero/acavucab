@@ -75,12 +75,24 @@
             <a class="nav-link" href="nosotros">Nosotros</a>
           </li>
           <li>
-          @if (Auth::user())
-            @if (Auth::user()->permiso('cliente'))
-            <li class="nav-item">
-              <a class="nav-link fa fa-cog" href="configuracion"></a> 
+          <li class="nav-item">
+            @if (Auth::user())
+              @if (Auth::user()->permiso('cliente'))
+                <li class="nav-item">
+                  <a class="nav-link fa fa-cog" href="configuracion"></a>
+                </li>
+              @endif
             @endif
-          @endif
+          </li>
+          <li class="nav-item">
+            @if (Auth::user())
+              @if (Auth::user()->permiso('supervisor'))
+                <li class="nav-item">
+                  <a class="nav-link fa fa-eye" href="vistas_supervision"></a>
+                </li>
+              @endif
+            @endif
+          </li>
           </li>
         </ul>
         <form class="form-inline my-2 my-md-0">

@@ -12,6 +12,8 @@ use App\Reports\top5cervezas;
 use App\Reports\top10cervezas;
 use App\Reports\top10clientes;
 use App\Reports\totalpuntos;
+use App\Reports\asistencia;
+use App\Reports\ordenesFacturas;
 
 class ReportController extends Controller
 {
@@ -24,64 +26,75 @@ class ReportController extends Controller
     {
         $reporte = new diarioReporte;
         $reporte->run();
-        return view("diarioReporte",["diarioReporte"=>$report]);
+        return view("reporte.diarioReporte",["diarioReporte"=>$reporte]);
     }
 
     public function empleados_faltasView(){
         $reporte = new empleados_faltas;
         $reporte->run();
-        return view("empleados_faltas",["empleados_faltas"=>$reporte]);
+        return view("reporte.empleados_faltas",["empleados_faltas"=>$reporte]);
     }
 
     public function fichaProveedoresView()
     {
         $reporte = new fichaProveedores;
         $reporte->run();
-        return view("fichaProveedores",["fichaProveedores"=>$report]);
+        return view("reporte.fichaProveedores",["fichaProveedores"=>$reporte]);
     }
 
     public function movinventariosView(){
         $reporte = new movinventarios;
         $reporte->run();
-        return view("movinventarios",["movinventarios"=>$reporte]);
+        return view("reporte.movinventarios",["movinventarios"=>$reporte]);
     }
 
     public function ordenesView(){
         $reporte = new ordenes;
         $reporte->run();
-        return view("ordenes",["ordenes"=>$reporte]);
+        return view("reporte.ordenes",["ordenes"=>$reporte]);
     }
 
     public function tipoMasVendidoView()
     {
         $reporte = new tipoMasVendido;
         $reporte->run();
-        return view("tipoMasVendido",["tipoMasVendido"=>$report]);
+        return view("reporte.tipoMasVendido",["tipoMasVendido"=>$reporte]);
     }
 
     public function top5cervezasView(){
         $reporte = new top5cervezas;
         $reporte->run();
-        return view("top5cervezas",["top5cervezas"=>$reporte]);
+        return view("reporte.top5cervezas",["top5cervezas"=>$reporte]);
     }
 
     public function top10cervezasView()
     {
         $reporte = new top10cervezas;
         $reporte->run();
-        return view("top10cervezas",["top10cervezas"=>$report]);
+        return view("reporte.top10cervezas",["top10cervezas"=>$reporte]);
     }
 
     public function top10clientesView(){
         $reporte = new top10clientes;
         $reporte->run();
-        return view("top10clientes",["top10clientes"=>$reporte]);
+        return view("reporte.top10clientes",["top10clientes"=>$reporte]);
     }
 
     public function totalpuntosView(){
         $reporte = new totalpuntos;
         $reporte->run();
-        return view("totalpuntos",["totalpuntos"=>$reporte]);
+        return view("reporte.totalpuntos",["totalpuntos"=>$reporte]);
     }
 
+    public function ordenesFacturasView(){
+        $reporte = new ordenesFacturas;
+        $reporte->run();
+        return view("reporte.ordenesFacturas",["ordenesFacturas"=>$reporte]);
+    }
+
+    public function asistenciaView(){
+        $reporte = new asistencia;
+        $reporte->run();
+        return view("reporte.asistencia",["asistencia"=>$reporte]);
+    }
 }
