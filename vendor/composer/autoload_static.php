@@ -25,6 +25,7 @@ class ComposerStaticInitaf425483d758d5edebe636439708bd9c
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
+        '0b17741e1be8bc33be28693cd04d2893' => __DIR__ . '/..' . '/koolreport/core/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
