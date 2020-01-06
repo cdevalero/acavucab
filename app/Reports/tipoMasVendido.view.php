@@ -8,9 +8,12 @@ use \koolreport\widgets\koolphp\Table;
     <body>
     <h1>Cerveza Mas vendida</h1>
         <?php
-            \koolreport\widgets\google\columnchart::create(array(
+            \koolreport\widgets\google\piechart::create(array(
                 "dataSource"=>$this->dataStore("tipoMasVendido")
             ));
+            Table::create([
+                "dataSource"=>$this->dataStore("tipoMasVendido")
+            ]);
         ?>
     </body>
 </html> 

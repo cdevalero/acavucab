@@ -30,10 +30,34 @@ class ReportController extends Controller
         return view("reporte.diarioReporte",["diarioReporte"=>$reporte]);
     }
 
-    public function empleados_faltasView(){
-        $reporte = new empleados_faltas;
+    public function top10cervezasView(Request $request)
+    { 
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null)
+            $fecha[":inicio"]="01-01-1900";
+        if ($fecha[":fin"]==null)
+            $fecha[":fin"]="31-12-2100";
+        $reporte = new top10cervezas($fecha);
         $reporte->run();
-        return view("reporte.empleados_faltas",["empleados_faltas"=>$reporte]);
+        return view("reporte.top10cervezas",["top10cervezas"=>$reporte]);
+    }
+
+    public function totalpuntosView(Request $request){
+
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null){
+            $fecha[":inicio"]="01-01-1900";
+            $fecha[":iniciob"]="01-01-1900";
+        }
+        else $fecha[":iniciob"]=$fecha[":inicio"];
+        if ($fecha[":fin"]==null){
+            $fecha[":finb"]="31-12-2100";
+            $fecha[":fin"]="31-12-2100";
+        }
+        else $fecha[":finb"]=$fecha[":fin"];
+        $reporte = new totalpuntos($fecha);
+        $reporte->run();
+        return view("reporte.totalpuntos",["totalpuntos"=>$reporte]);
     }
 
     public function fichaProveedoresView()
@@ -55,9 +79,14 @@ class ReportController extends Controller
         return view("reporte.ordenes",["ordenes"=>$reporte]);
     }
 
-    public function tipoMasVendidoView()
+    public function tipoMasVendidoView(Request $request)
     {
-        $reporte = new tipoMasVendido;
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null)
+            $fecha[":inicio"]="01-01-1900";
+        if ($fecha[":fin"]==null)
+            $fecha[":fin"]="31-12-2100";
+        $reporte = new tipoMasVendido($fecha);
         $reporte->run();
         return view("reporte.tipoMasVendido",["tipoMasVendido"=>$reporte]);
     }
@@ -68,28 +97,23 @@ class ReportController extends Controller
         return view("reporte.top5cervezas",["top5cervezas"=>$reporte]);
     }
 
-    public function top10cervezasView(Request $request)
-    { 
-        $fecha=$request->all(":fin",":inicio");
-        if ($fecha[":inicio"]==null)
-            $fecha[":inicio"]="01-01-1900";
-        if ($fecha[":fin"]==null)
-            $fecha[":fin"]="31-12-2100";
-        $reporte = new top10cervezas($fecha);
-        $reporte->run();
-        return view("reporte.top10cervezas",["top10cervezas"=>$reporte]);
-    }
-
     public function top10clientesView(){
         $reporte = new top10clientes;
         $reporte->run();
         return view("reporte.top10clientes",["top10clientes"=>$reporte]);
     }
 
-    public function totalpuntosView(){
-        $reporte = new totalpuntos;
+
+
+    public function empleados_faltasView(Request $request){
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null)
+            $fecha[":inicio"]="01-01-1900";
+        if ($fecha[":fin"]==null)
+            $fecha[":fin"]="31-12-2100";
+        $reporte = new empleados_faltas($fecha);
         $reporte->run();
-        return view("reporte.totalpuntos",["totalpuntos"=>$reporte]);
+        return view("reporte.empelados_faltas",["empleados_faltas"=>$reporte]);
     }
 
     public function ordenesFacturasView(){

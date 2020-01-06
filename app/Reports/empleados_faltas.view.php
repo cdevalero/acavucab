@@ -8,9 +8,10 @@ use \koolreport\widgets\koolphp\Table;
     <body>
     <h1>Faltas</h1>
         <?php
-            \koolreport\widgets\google\table::create(array(
+            
+            Table::create([
                 "dataSource"=>$this->dataStore("empleados_faltas")
-            ));
+            ]);
         ?>
     </body>
 </html> 

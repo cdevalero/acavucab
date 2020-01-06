@@ -12,11 +12,12 @@ class empleados_faltas extends \koolreport\KoolReport
     {
         $this->src("pgsql")
         ->query("
-        SELECT  
-        FROM 
-        GROUP BY 
-        ORDER BY 
+        SELECT E.nombre, E.apellido, F.tipo
+        FROM empleado E, falta F
+        WHERE FK_falta_empleado = codigo_empleado
+        AND F.fecha BETWEEN :inicio AND :fin;
         ")
+        ->params($this->params)
         ->pipe($this->dataStore("empleados_faltas"));        
     }
 } 

@@ -11,6 +11,9 @@ use \koolreport\widgets\koolphp\Table;
             \koolreport\widgets\google\columnchart::create(array(
                 "dataSource"=>$this->dataStore("totalpuntos")
             ));
+            Table::create([
+                "dataSource"=>$this->dataStore("totalpuntos")
+            ]);
         ?>
     </body>
 </html> 
