@@ -1710,22 +1710,22 @@ INSERT INTO pagoWeb(monto_total,FK_pagoWeb_tarjetaCredito,FK_pagoWeb_tarjetaDebi
 (100000,4,null),
 (400000,null,5);
 
-INSERT INTO usuario(email,password,remember_token,FK_usuario_rol) VALUES 
-('diego@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
-('carlos@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
-('miguel@mail.com',crypt('1234', gen_salt('bf', 8)),null,1),
-('cliente1@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('cliente2@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('cliente3@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('cliente4@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('cliente5@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('cliente6@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('cliente7@mail.com',crypt('1234', gen_salt('bf', 8)),null,2),
-('empleado1@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
-('empleado2@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
-('empleado3@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
-('empleado4@mail.com',crypt('1234', gen_salt('bf', 8)),null,4),
-('gerente@mail.com',crypt('1234', gen_salt('bf', 8)),null,3);
+INSERT INTO usuario(nombre,password,remember_token,FK_usuario_rol) VALUES 
+('diego',crypt('1234', gen_salt('bf', 8)),null,1),
+('carlos',crypt('1234', gen_salt('bf', 8)),null,1),
+('miguel',crypt('1234', gen_salt('bf', 8)),null,1),
+('cliente1',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente2',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente3',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente4',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente5',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente6',crypt('1234', gen_salt('bf', 8)),null,2),
+('cliente7',crypt('1234', gen_salt('bf', 8)),null,2),
+('empleado1',crypt('1234', gen_salt('bf', 8)),null,4),
+('empleado2',crypt('1234', gen_salt('bf', 8)),null,4),
+('empleado3',crypt('1234', gen_salt('bf', 8)),null,4),
+('empleado4',crypt('1234', gen_salt('bf', 8)),null,4),
+('gerente',crypt('1234', gen_salt('bf', 8)),null,3);
 
 INSERT INTO tienda(rif,nombre,FK_tienda_lugar) VALUES 
 ('5S5DAS33Y4NQL63A','social media beer',29);

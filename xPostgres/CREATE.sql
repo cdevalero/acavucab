@@ -247,7 +247,7 @@ CREATE TABLE cheque (
 
 CREATE TABLE usuario(
     codigo_usuario                      SERIAL,
-    email                               VARCHAR(50) NOT NULL UNIQUE,
+    nombre                              VARCHAR(20) NOT NULL UNIQUE,
     password                            VARCHAR(255) NOT NULL,
     remember_token                      VARCHAR(255),
     FK_usuario_rol                      INTEGER,
