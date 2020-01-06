@@ -13,6 +13,7 @@ use App\Reports\top10cervezas;
 use App\Reports\top10clientes;
 use App\Reports\totalpuntos;
 use App\Reports\asistencia;
+use Illuminate\Http\Request;
 use App\Reports\ordenesFacturas;
 
 class ReportController extends Controller
@@ -67,9 +68,14 @@ class ReportController extends Controller
         return view("reporte.top5cervezas",["top5cervezas"=>$reporte]);
     }
 
-    public function top10cervezasView()
-    {
-        $reporte = new top10cervezas;
+    public function top10cervezasView(Request $request)
+    { 
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null)
+            $fecha[":inicio"]="01-01-1900";
+        if ($fecha[":fin"]==null)
+            $fecha[":fin"]="31-12-2100";
+        $reporte = new top10cervezas($fecha);
         $reporte->run();
         return view("reporte.top10cervezas",["top10cervezas"=>$reporte]);
     }
