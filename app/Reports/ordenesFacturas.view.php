@@ -11,6 +11,10 @@ use \koolreport\widgets\koolphp\Table;
             \koolreport\widgets\google\barchart::create(array(
                 "dataSource"=>$this->dataStore("ordenesFacturas")
             ));
+            Table::create([
+                "dataSource"=>$this->dataStore("ordenesFacturas")
+            ]);
+            return $this->dataStore("ordenesFacturas");
         ?>
     </body>
 </html> 

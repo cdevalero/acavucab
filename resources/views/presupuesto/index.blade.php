@@ -9,9 +9,14 @@
                 <div class="card">
                     <div class="card-header">Presupuesto</div>
                     <div class="card-body">
-                        <a href="{{ url('/presupuesto/create') }}" class="btn btn-success btn-sm" title="Add New presupuesto">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('presupuestoC'))
+                                <a href="{{ url('/presupuesto/create') }}" class="btn btn-success btn-sm" title="Add New presupuesto">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                                </a>
+                            @endif
+                        @endif                        
 
                         <form method="GET" action="{{ url('/presupuesto') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">
@@ -39,14 +44,26 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->fecha }}</td><td>{{ $item->total }}</td><td>{{ $item->fk_presupuesto_clientejuridico }}</td>
                                         <td>
+                                        
                                             <a href="{{ url('/presupuesto/' . $item->codigo_presupuesto) }}" title="View presupuesto"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ url('/presupuesto/' . $item->codigo_presupuesto . '/edit') }}" title="Edit presupuesto"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('presupuestoU'))
+                                                    <a href="{{ url('/presupuesto/' . $item->codigo_presupuesto . '/edit') }}" title="Edit presupuesto"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                                @endif
+                                            @endif
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('presupuestoD'))
+                                                    <form method="POST" action="{{ url('/presupuesto' . '/' . $item->codigo_presupuesto) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete presupuesto" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                    </form>                                                
+                                                @endif
+                                            @endif
 
-                                            <form method="POST" action="{{ url('/presupuesto' . '/' . $item->codigo_presupuesto) }}" accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete presupuesto" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach

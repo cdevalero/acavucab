@@ -9,9 +9,16 @@
                 <div class="card">
                     <div class="card-header">Rol_privilegio</div>
                     <div class="card-body">
-                        <a href="{{ url('/rol_privilegio/create') }}" class="btn btn-success btn-sm" title="Add New rol_privilegio">
+
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('rol_privilegioC'))
+                            <a href="{{ url('/rol_privilegio/create') }}" class="btn btn-success btn-sm" title="Add New rol_privilegio">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                            </a>
+                            @endif
+                        @endif 
+
+                        
 
                         <form method="GET" action="{{ url('/rol_privilegio') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">
@@ -40,13 +47,25 @@
                                         <td>{{ $item->fk_rp_rol }}</td><td>{{ $item->fk_rp_privilegio }}</td>
                                         <td>
                                             <a href="{{ url('/rol_privilegio/' . $item->id_rp) }}" title="View rol_privilegio"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ url('/rol_privilegio/' . $item->id_rp . '/edit') }}" title="Edit rol_privilegio"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('rol_privilegioU'))
+                                                <a href="{{ url('/rol_privilegio/' . $item->id_rp . '/edit') }}" title="Edit rol_privilegio"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                                @endif
+                                            @endif
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('rol_privilegioD'))
+                                                    <form method="POST" action="{{ url('/rol_privilegio' . '/' . $item->id_rp) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete rol_privilegio" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                    </form>                                              
+                                                @endif
+                                            @endif
+                                            
 
-                                            <form method="POST" action="{{ url('/rol_privilegio' . '/' . $item->id_rp) }}" accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete rol_privilegio" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach

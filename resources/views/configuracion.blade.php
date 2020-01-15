@@ -133,7 +133,7 @@
 
         @if (Auth::user())
           @if (Auth::user()->permiso('manejar_empleados_configuracion'))
-            <a href="#adminEmp" onclick="changePart('#adminEmp');">Manejar empleados</a>
+            <a href="#adminEmp" onclick="changePart('#adminEmp');">Manejar URP</a>
           @endif
         @endif
 
@@ -143,11 +143,7 @@
           @endif
         @endif
 
-        @if (Auth::user())
-          @if (Auth::user()->permiso('manejar_miembros_configuracion'))
-            <a href="#adminMiem" onclick="changePart('#adminMiem');">Manejar miembros</a>
-          @endif
-        @endif
+        
 
         @if (Auth::user())
           @if (Auth::user()->permiso('presupuestoCRUD'))
@@ -641,50 +637,19 @@
     <div id="adminProd" class="content" style="display:none;">
         <h2><b>MANEJAR PRODUCTOS</b></h2>
         <div class="boxed text-center">
-          @if (Auth::user())
+        @if (Auth::user())
             @if (Auth::user()->permiso('cervezaCRUD'))
-              <p><a href="{{ route('cerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar cervezas</a></p>
+              <p><a href="{{ route('cerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar Cervezas</a></p>
             @endif
           @endif
           @if (Auth::user())
-            @if (Auth::user()->permiso('tipocervezaCRUD'))
-              <p><a href="{{ route('tipocerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar tipos de cervezas</a></p>
+            @if (Auth::user()->permiso('eventoCRUD'))
+              <p><a href="{{ route('evento.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar Eventos</a></p>
             @endif
           @endif
-
           @if (Auth::user())
-            @if (Auth::user()->permiso('caracteristicasCRUD'))
-              <p><a href="{{ route('caracteristicas.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar características de cervezas</a></p>
-            @endif
-          @endif
-          
-          @if (Auth::user())
-            @if (Auth::user()->permiso('almacenCRUD'))
-              <p><a href="{{ route('almacen.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar almacén</a></p>
-            @endif
-          @endif
-
-          @if (Auth::user())
-            @if (Auth::user()->permiso('anaquelCRUD'))
-              <p><a href="{{ route('anaquel.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar anaqueles</a></p>
-            @endif
-          @endif
-
-          @if (Auth::user())
-            @if (Auth::user()->permiso('pasilloCRUD'))
-              <p><a href="{{ route('pasillo.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar pasillos</a></p>
-            @endif
-          @endif
-
-          @if (Auth::user())
-            @if (Auth::user()->permiso('ingredienteCRUD'))
-              <p><a href="{{ route('ingrediente.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar ingredientes</a></p>
-            @endif
-          @endif
-
-          @if (Auth::user())
-            @if (Auth::user()->permiso('pasopreparacionCRUD'))
-            <p><a href="{{ route('pasopreparacion.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar preparación</a></p>
+            @if (Auth::user()->permiso('entradaCRUD'))
+              <p><a href="{{ route('entrada.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar Entradas a Eventos</a></p>
             @endif
           @endif
 
@@ -692,32 +657,27 @@
     </div>
                                       <!-- =============================== MANEJAR EMPLEADOS =============================== -->
     <div id="adminEmp" class="content" style="display:none;">
-        <h2><b>MANEJAR EMPLEADOS</b></h2>
+        <h2><b>MANEJAR URP</b></h2>
         <div class="boxed text-center">
 
         @if (Auth::user())
-            @if (Auth::user()->permiso('empleadoCRUD'))
-              <p><a href="{{ route('empleado.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar empleados</a></p>
+            @if (Auth::user()->permiso('usuarioCRUD'))
+              <p><a href="{{ route('usuario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar Usuario</a></p>
             @endif
         @endif
         @if (Auth::user())
-            @if (Auth::user()->permiso('horarioCRUD'))
-              <p><a href="{{ route('horario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar horarios</a></p>
+            @if (Auth::user()->permiso('privilegioCRUD'))
+              <p><a href="{{ route('privilegio.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar Privilegios</a></p>
             @endif
         @endif
         @if (Auth::user())
-            @if (Auth::user()->permiso('empleado_horarioCRUD'))
-              <p><a href="{{ route('empleado_horario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar horarios de empleados</a></p>
+            @if (Auth::user()->permiso('rolCRUD'))
+              <p><a href="{{ route('rol.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar Rol</a></p>
             @endif
         @endif
         @if (Auth::user())
-            @if (Auth::user()->permiso('beneficioCRUD'))
-              <p><a href="{{ route('beneficio.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar beneficios</a></p>
-            @endif
-        @endif
-        @if (Auth::user())
-            @if (Auth::user()->permiso('faltaCRUD'))
-              <p><a href="{{ route('falta.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar faltas</a></p>
+            @if (Auth::user()->permiso('rol_privilegioCRUD'))
+              <p><a href="{{ route('rol_privilegio.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar privilegio de roles</a></p>
             @endif
         @endif
 
@@ -728,7 +688,7 @@
         <h2><b>MANEJAR CLIENTES</b></h2>
         <div class="boxed text-center">
 
-          @if (Auth::user())
+        @if (Auth::user())
               @if (Auth::user()->permiso('clientenaturalCRUD'))
                 <p><a href="{{ route('clientenatural.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar clientes naturales</a></p>
               @endif
@@ -739,13 +699,8 @@
               @endif
           @endif
           @if (Auth::user())
-              @if (Auth::user()->permiso('usuarioCRUD'))
-                <p><a href="{{ route('usuario.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar usuarios</a></p>
-              @endif
-          @endif
-          @if (Auth::user())
-              @if (Auth::user()->permiso('presupuestoCRUD'))
-                <p><a href="{{ route('presupuesto.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar presupuesto</a></p>
+              @if (Auth::user()->permiso('afiliacionproveedorCRUD'))
+                <p><a href="{{ route('afiliacionproveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar afiliacion de proveedores</a></p>
               @endif
           @endif
         </div>

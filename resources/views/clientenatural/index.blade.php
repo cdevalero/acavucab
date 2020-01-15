@@ -9,9 +9,14 @@
                 <div class="card">
                     <div class="card-header">Clientenatural</div>
                     <div class="card-body">
-                        <a href="{{ url('/clientenatural/create') }}" class="btn btn-success btn-sm" title="Add New clientenatural">
+
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('clinetejuridicoC'))
+                            <a href="{{ url('/clientenatural/create') }}" class="btn btn-success btn-sm" title="Add New clientenatural">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                            </a>
+                            @endif
+                        @endif
 
                         <form method="GET" action="{{ url('/clientenatural') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">
@@ -40,13 +45,25 @@
                                         <td>{{ $item->rif }}</td><td>{{ $item->nombre }}</td><td>{{ $item->apellido }}</td>
                                         <td>
                                             <a href="{{ url('/clientenatural/' . $item->codigo_clientenatural) }}" title="View clientenatural"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ url('/clientenatural/' . $item->codigo_clientenatural . '/edit') }}" title="Edit clientenatural"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('clientenaturalU'))
+                                                    <a href="{{ url('/clientenatural/' . $item->codigo_clientenatural . '/edit') }}" title="Edit clientenatural"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                                @endif
+                                            @endif
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('clientenaturalD'))
+                                                    <form method="POST" action="{{ url('/clientenatural' . '/' . $item->codigo_clientenatural) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete clientenatural" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                    </form>                                            
+                                                @endif
+                                            @endif
+                                            
 
-                                            <form method="POST" action="{{ url('/clientenatural' . '/' . $item->codigo_clientenatural) }}" accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete clientenatural" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach

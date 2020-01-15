@@ -11,13 +11,25 @@
                     <div class="card-body">
 
                         <a href="{{ url('/clientenatural') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <a href="{{ url('/clientenatural/' . $clientenatural->codigo_clientenatural . '/edit') }}" title="Edit clientenatural"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('clientenaturalU'))
+                                <a href="{{ url('/clientenatural/' . $clientenatural->codigo_clientenatural . '/edit') }}" title="Edit clientenatural"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                            @endif
+                        @endif
 
-                        <form method="POST" action="{{ url('clientenatural' . '/' . $clientenatural->codigo_clientenatural) }}" accept-charset="UTF-8" style="display:inline">
-                            {{ method_field('DELETE') }}
-                            {{ csrf_field() }}
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete clientenatural" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                        </form>
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('clientenaturalD'))
+                                <form method="POST" action="{{ url('clientenatural' . '/' . $clientenatural->codigo_clientenatural) }}" accept-charset="UTF-8" style="display:inline">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete clientenatural" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                </form>
+                            @endif
+                        @endif
+                        
+
+                        
                         <br/>
                         <br/>
 

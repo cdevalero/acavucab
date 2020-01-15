@@ -9,9 +9,16 @@
                 <div class="card">
                     <div class="card-header">Rol</div>
                     <div class="card-body">
-                        <a href="{{ url('/rol/create') }}" class="btn btn-success btn-sm" title="Add New rol">
+
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('rolC'))
+                            <a href="{{ url('/rol/create') }}" class="btn btn-success btn-sm" title="Add New rol">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                            </a>
+                            @endif
+                        @endif
+
+                        
 
                         <form method="GET" action="{{ url('/rol') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">
@@ -40,13 +47,25 @@
                                         <td>{{ $item->nombre }}</td>
                                         <td>
                                             <a href="{{ url('/rol/' . $item->codigo_rol) }}" title="View rol"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ url('/rol/' . $item->codigo_rol . '/edit') }}" title="Edit rol"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('rolU'))
+                                                    <a href="{{ url('/rol/' . $item->codigo_rol . '/edit') }}" title="Edit rol"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                                @endif
+                                            @endif
+                                            
+                                            @if (Auth::user())
+                                                @if (Auth::user()->permiso('rolD'))
+                                                    <form method="POST" action="{{ url('/rol' . '/' . $item->codigo_rol) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete rol" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                    </form>                                              
+                                                @endif
+                                            @endif
+                                            
 
-                                            <form method="POST" action="{{ url('/rol' . '/' . $item->codigo_rol) }}" accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete rol" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach

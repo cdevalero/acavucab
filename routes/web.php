@@ -50,7 +50,7 @@ Route::get('cajera', function () {
 
 
 
-Route::post('cambioclave','vistasControlador@cambiclave'); 
+Route::post('cambioclave','vistasControlador@cambiclave')->middleware('permiso:cliente');
 
 
 Route::get('evento{id}','vistasControlador@eventoMostrar');
@@ -71,8 +71,13 @@ Route::post('afiliacionmanual', 'vistasControlador@afiliacionmanual');
 
 Route::get('carro', function () {
     return view('compracliente');
-});
+})->middleware('permiso:cliente');
+
 Route::get('configuracion', function () {
+    return view('configuracion');
+})->middleware('permiso:cliente');
+
+Route::get('archivo', function () {
     return view('configuracion');
 });
 

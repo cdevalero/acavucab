@@ -22,7 +22,7 @@ class usuarioController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $usuario = User::where('email', 'LIKE', "%$keyword%")
+            $usuario = User::where('nombre', 'LIKE', "%$keyword%")
                 ->orWhere('password', 'LIKE', "%$keyword%")
                 ->orWhere('fk_usuario_rol', 'LIKE', "%$keyword%")
                 -> paginate($perPage);
@@ -56,7 +56,7 @@ class usuarioController extends Controller
         $requestData = $request->all();
 
         User::create([
-            'email' => $requestData['email'],
+            'nombre' => $requestData['nombre'],
             'fk_usuario_rol' => $requestData['fk_usuario_rol'],
             'password' => Hash::make($requestData['password']), 
         ]);
@@ -106,7 +106,7 @@ class usuarioController extends Controller
         
         $usuario = User::findOrFail($id);
         $usuario->update([
-            'email' => $requestData['email'],
+            'nombre' => $requestData['nombre'],
             'fk_usuario_rol' => $requestData['fk_usuario_rol'],
             'password' => Hash::make($requestData['password']), 
         ]);

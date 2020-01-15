@@ -31,46 +31,19 @@
                         @endif
                     @endif
                     @if (Auth::user())
-                        @if (Auth::user()->permiso('tipocervezaCRUD'))
-                            <a class="dropdown-item" href="tipocerveza">Tipo cerveza</a>
-                        @endif
+                            @if (Auth::user()->permiso('eventoCRUD'))
+                                <a class="dropdown-item" href="evento">Evento</a>
+                            @endif
                     @endif
                     @if (Auth::user())
-                        @if (Auth::user()->permiso('caracteristicasCRUD'))
-                            <a class="dropdown-item" href="caracteristicas">Caracteristicas de cerveza</a>
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('almacenCRUD'))
-                            <a class="dropdown-item" href="almacen">Almacen</a>
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('anaquelCRUD'))
-                            <a class="dropdown-item" href="anaquel">Anaquel</a>
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('pasilloCRUD'))
-                            <a class="dropdown-item" href="pasillo">Pasillo</a>
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('ingredienteCRUD'))
-                            <a class="dropdown-item" href="ingrediente">Ingredientes</a>
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('pasopreparacionCRUD'))
-                            <a class="dropdown-item" href="pasopreparacion">Preparacion</a>
+                        @if (Auth::user()->permiso('entradaCRUD'))
+                            <a class="dropdown-item" href="entrada">entrada</a>
                         @endif
                     @endif
                     </div>
                     </div>
                 @endif
-            @endif
-
-            
+            @endif        
 
             <br>
 
@@ -82,39 +55,30 @@
                         class="btn btn-primary dropdown-toggle"
                         data-toggle="dropdown"
                     >
-                        Empleados
+                        URP
                     </button>
                     <div class="dropdown-menu">
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                    @if (Auth::user())
+                            @if (Auth::user()->permiso('usuarioCRUD'))
+                            <a class="dropdown-item" href="usuario">Usuarios</a>
                             @endif
-                        @endif
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                    @endif
+                    @if (Auth::user())
+                            @if (Auth::user()->permiso('privilegioCRUD'))
+                                <a class="dropdown-item" href="privilegio">Privilegio</a>
                             @endif
-                        @endif
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                    @endif
+                    @if (Auth::user())
+                            @if (Auth::user()->permiso('rolCRUD'))
+                                <a class="dropdown-item" href="rol">rol</a>
                             @endif
-                        @endif
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                    @endif
+                    @if (Auth::user())
+                            @if (Auth::user()->permiso('rol_privilegioCRUD'))
+                                <a class="dropdown-item" href="rol_privilegio">Privilegio - roles</a>
                             @endif
-                        @endif
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
+                    @endif
                         
-                            @endif
-                        @endif
-                        <a class="dropdown-item" href="empleado">Empleados</a>
-                        <a class="dropdown-item" href="horario">Horarios</a>
-                        <a class="dropdown-item" href="empleado_horario">Horarios de empleados</a>
-                        <a class="dropdown-item" href="beneficio">Beneficios</a>
-                        <a class="dropdown-item" href="falta">Faltas</a>
                     </div>
                     </div>
                 @endif
@@ -136,23 +100,21 @@
                     </button>
                     <div class="dropdown-menu">
                         @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                            @if (Auth::user()->permiso('clientenaturalCRUD'))
+                            <a class="dropdown-item" href="clientenatural">Persona Natural</a>
                             @endif
                         @endif
                         @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                            @if (Auth::user()->permiso('clinetejuridicoCRUD'))
+                            <a class="dropdown-item" href="clientejuridico">Persona Juridica</a>
                             @endif
                         @endif
                         @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                        
+                            @if (Auth::user()->permiso('proveedorCRUD'))
+                                <a class="dropdown-item" href="proveedor">Proveedores</a>
                             @endif
                         @endif
-                        <a class="dropdown-item" href="clientenatural">Persona Natural</a>
-                        <a class="dropdown-item" href="clientejuridico">Persona Juridica</a>
-                        <a class="dropdown-item" href="usuario">Usuarios</a>
+ 
                     </div>
                     </div>
                 @endif
@@ -160,47 +122,6 @@
 
             
 
-            <br>
-
-            @if (Auth::user())
-                @if (Auth::user()->permiso('manejar_miembros_configuracion'))
-                    <div class="dropdown dropright">
-                    <button
-                        type="button"
-                        class="btn btn-primary dropdown-toggle"
-                        data-toggle="dropdown"
-                    >
-                        Miembros
-                    </button>
-                    <div class="dropdown-menu">
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('total'))
-                    
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('total'))
-                    
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('total'))
-                    
-                        @endif
-                    @endif
-                    @if (Auth::user())
-                        @if (Auth::user()->permiso('total'))
-                    
-                        @endif
-                    @endif
-                        <a class="dropdown-item" href="proveedor">Proveedores</a>
-                        <a class="dropdown-item" href="proveedor_tipocerveza">Cervezas de proveedores</a>
-                        <a class="dropdown-item" href="personacontacto">Pesonal de contacto</a>
-                        <a class="dropdown-item" href="afiliacionproveedor">Afiliaciones</a>
-                    </div>
-                    </div>
-                @endif
-            @endif
 
             
 
@@ -239,21 +160,13 @@
                         Otros
                     </button>
                     <div class="dropdown-menu">
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                                <a class="dropdown-item" href="rol">rol</a>
-                            @endif
-                        @endif
+                        
                         @if (Auth::user())
                             @if (Auth::user()->permiso('total'))
                                 <a class="dropdown-item" href="privilegio">Privilegio</a>
                             @endif
                         @endif
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                                <a class="dropdown-item" href="rol_privilegio">Privilegio - roles</a>
-                            @endif
-                        @endif
+                        
                         @if (Auth::user())
                             @if (Auth::user()->permiso('total'))
                                 <a class="dropdown-item" href="actividad">Actividad</a>
@@ -290,7 +203,41 @@
                             @endif
                         @endif
 
-
+                        @if (Auth::user())
+                        @if (Auth::user()->permiso('tipocervezaCRUD'))
+                            <a class="dropdown-item" href="tipocerveza">Tipo cerveza</a>
+                        @endif
+                    @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->permiso('caracteristicasCRUD'))
+                            <a class="dropdown-item" href="caracteristicas">Caracteristicas de cerveza</a>
+                        @endif
+                    @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->permiso('almacenCRUD'))
+                            <a class="dropdown-item" href="almacen">Almacen</a>
+                        @endif
+                    @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->permiso('anaquelCRUD'))
+                            <a class="dropdown-item" href="anaquel">Anaquel</a>
+                        @endif
+                    @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->permiso('pasilloCRUD'))
+                            <a class="dropdown-item" href="pasillo">Pasillo</a>
+                        @endif
+                    @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->permiso('ingredienteCRUD'))
+                            <a class="dropdown-item" href="ingrediente">Ingredientes</a>
+                        @endif
+                    @endif
+                    @if (Auth::user())
+                        @if (Auth::user()->permiso('pasopreparacionCRUD'))
+                            <a class="dropdown-item" href="pasopreparacion">Preparacion</a>
+                        @endif
+                    @endif
 
                         @if (Auth::user())
                             @if (Auth::user()->permiso('total'))
@@ -332,18 +279,38 @@
                                 <a class="dropdown-item" href="tarjetadebito">Targetas de Debito</a>
                             @endif
                         @endif
-                        @if (Auth::user())
-                            @if (Auth::user()->permiso('total'))
-                                <a class="dropdown-item" href="entrada">entrada</a>
-                            @endif
-                        @endif
+                        
                         @if (Auth::user())
                             @if (Auth::user()->permiso('total'))
                             <a class="dropdown-item" href="cheque">cheque</a>
                             @endif
                         @endif
 
- 
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('total'))
+                            <a class="dropdown-item" href="empleado">Empleados</a>
+                            @endif
+                        @endif
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('total'))
+                            <a class="dropdown-item" href="horario">Horarios</a>
+                            @endif
+                        @endif
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('total'))
+                            <a class="dropdown-item" href="empleado_horario">Horarios de empleados</a>
+                            @endif
+                        @endif
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('total'))
+                            <a class="dropdown-item" href="beneficio">Beneficios</a>
+                            @endif
+                        @endif
+                        @if (Auth::user())
+                            @if (Auth::user()->permiso('total'))
+                            <a class="dropdown-item" href="falta">Faltas</a>
+                            @endif
+                        @endif
 
                         @if (Auth::user())
                             @if (Auth::user()->permiso('afiliacion_estatuspagoCRUD'))
