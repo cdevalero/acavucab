@@ -260,4 +260,19 @@ class vistasControlador extends Controller{
         return redirect('main');
     }
     
+
+    public function archivo(Request $handle){
+        $db = pg_connect("host=localhost port=5432 dbname=git user=postgres password=1234");
+        $handle = fopen($_FILES["uploaded"]["tmp_name"], "r");
+        if ($handle){
+            while (($line = fgets($handle)) !== false) {
+                $lineArr = explode("|", "$line");
+                var_dump($lineArr);    
+                list($codigo_falta,$tipo,$fecha,$fk_falta_empleado) = $lineArr;
+                $query_insert = "INSERT INTO falta (codigo_falta,tipo,fecha,fk_falta_empleado) VALUES ('$codigo_falta','$tipo','$fecha','$fk_falta_empleado')";
+                $insert = pg_query($query_insert);
+            }   
+        }
+        return redirect('archivo');
+    }
 }

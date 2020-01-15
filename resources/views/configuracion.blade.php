@@ -143,7 +143,11 @@
           @endif
         @endif
 
-        
+        @if (Auth::user())
+          @if (Auth::user()->permiso('archivos'))
+            <a href="#adminMiem" onclick="changePart('#adminMiem');">Archivo</a>
+          @endif
+        @endif
 
         @if (Auth::user())
           @if (Auth::user()->permiso('presupuestoCRUD'))
@@ -706,31 +710,28 @@
         </div>
     </div>
 
-                                      <!-- =============================== MANEJAR MIEMBROS =============================== -->
-    <div id="adminMiem" class="content" style="display:none;">
-        <h2><b>MANEJAR MIEMBROS</b></h2>
+    <div id="adminarc" class="content" style="display:none;">
+        <h2><b>Archivo</b></h2>
         <div class="boxed text-center">
 
-          @if (Auth::user())
-              @if (Auth::user()->permiso('proveedorCRUD'))
-              <p><a href="{{ route('proveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar miembros proveedores</a></p>
-              @endif
-          @endif
-          @if (Auth::user())
-              @if (Auth::user()->permiso('personacontactoCRUD'))
-              <p><a href="{{ route('personacontacto.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar personas de contacto</a></p>
-              @endif
-          @endif
-          @if (Auth::user())
-              @if (Auth::user()->permiso('afiliacionproveedorCRUD'))
-              <p><a href="{{ route('afiliacionproveedor.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar afiliaciones</a></p>
-              @endif
-          @endif
-          @if (Auth::user())
-              @if (Auth::user()->permiso('proveedor_tipocervezaCRUD'))
-              <p><a href="{{ route('proveedor_tipocerveza.index') }}" class="btn btn-lg btn-primary" type="submit" style="max-width:250px; margin-top:10px; background-color:black;">Administrar cervezas producidas por proveedores</a></p>
-              @endif
-          @endif
+          <form enctype="multipart/form-data" action="data_archivo" method="post">
+            @csrf
+            File:<input name="uploaded" type="file" maxlength="20" /><input type="submit" name="upfile" value="Upload File">
+          </form>
+        </div>
+    </div>
+
+    
+
+                                      <!-- =============================== MANEJAR MIEMBROS =============================== -->
+    <div id="adminMiem" class="content" style="display:none;">
+        <h2><b>Subir Archivo</b></h2>
+        <div class="boxed text-center">
+
+        <form enctype="multipart/form-data" action="data_archivo" method="post">
+            @csrf
+            Datos:<input name="uploaded" type="file" maxlength="20" /><input type="submit" name="upfile" value="Cargar Archivo">
+          </form>
         </div>
     </div>
 

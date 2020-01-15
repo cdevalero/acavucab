@@ -1457,6 +1457,7 @@ INSERT INTO privilegio(nombre) VALUES
 ('puntovalorCRUD'),('puntovalorC'),('puntovalorU'),('puntovalorD'),
 ('beneficioCRUD'),('beneficioC'),('beneficioU'),('beneficioD'),
 ('vacacionCRUD'),('vacacionC'),('vacacionU'),('vacacionD'),
+('archivos'),
 ('efectivoCRUD'),
 ('bancoCRUD'),
 ('tarjetadebitoCRUD'),

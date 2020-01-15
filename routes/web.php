@@ -48,8 +48,6 @@ Route::get('cajera', function () {
     return view('cajera');
 });
 
-
-
 Route::post('cambioclave','vistasControlador@cambiclave')->middleware('permiso:cliente');
 
 
@@ -78,8 +76,14 @@ Route::get('configuracion', function () {
 })->middleware('permiso:cliente');
 
 Route::get('archivo', function () {
-    return view('configuracion');
+    return view('archivo');
 });
+
+Route::post('data.archivo', function (Request $request) {
+    return compact('request');
+});
+
+Route::post('data_archivo', 'vistasControlador@archivo');
 
 Route::get('vistas_supervision', function () {
     return view('vistas_supervision');
