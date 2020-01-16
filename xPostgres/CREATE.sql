@@ -2,14 +2,12 @@ CREATE TABLE rol(
     codigo_rol                          SERIAl,
     nombre                              VARCHAR(20) NOT NULL,
     
-    
     CONSTRAINT PK_rol PRIMARY KEY (codigo_rol)
 );
 
 CREATE TABLE privilegio (
     codigo_privilegio                   SERIAL,
     nombre                              VARCHAR(50) NOT NULL,
-    
     
     CONSTRAINT PK_privilegio PRIMARY KEY (codigo_privilegio)
 );
@@ -328,22 +326,10 @@ CREATE TABLE compra (
     CONSTRAINT FK_c_compra_proveedor FOREIGN KEY (FK_compra_proveedor) REFERENCES proveedor(codigo_proveedor) ON DELETE CASCADE
 );
 
-CREATE TABLE pagoWeb(
-    codigo_pagoweb                      SERIAL,
-    monto_total                         Numeric(15,2),
-    FK_pagoWeb_tarjetaCredito           INTEGER,
-    FK_pagoWeb_tarjetaDebito            INTEGER,
-    
-    
-    CONSTRAINT PK_pagoWeb PRIMARY KEY (codigo_pagoweb),
-    CONSTRAINT FK_pw_pagoWeb_tarjetaCredito FOREIGN KEY (FK_pagoWeb_tarjetaCredito) REFERENCES tarjetaCredito(codigo_tarjetaCredito)ON DELETE CASCADE,
-    CONSTRAINT FK_pw_pagoWeb_tarjetaDebito FOREIGN KEY (FK_pagoWeb_tarjetaDebito) REFERENCES tarjetaDebito(codigo_tarjetaDebito)ON DELETE CASCADE
-);
-
 CREATE TABLE clienteNatural(
     codigo_clienteNatural               SERIAL,
     rif                                 VARCHAR(30) NOT NULL,
-    numeroCarnet                        INTEGER UNIQUE,
+    numero_carnet                        INTEGER UNIQUE,
     nombre                              VARCHAR(30) NOT NULL,
     apellido                            VARCHAR(30) NOT NULL,
     cedula                              INTEGER NOT NULL UNIQUE,
@@ -379,8 +365,8 @@ CREATE TABLE clienteJuridico(
 
 CREATE TABLE presupuesto(
     codigo_presupuesto                  SERIAL,
-    fecha_presupuesto                   DATE,
-    totalPresupuesto                    Numeric(15,2),
+    fecha                               TIMESTAMP,
+    total                               Numeric(15,2),
     FK_presupuesto_clienteNatural       INTEGER,
     FK_presupuesto_clienteJuridico      INTEGER,
     
@@ -447,17 +433,6 @@ CREATE TABLE puntoVenta(
     CONSTRAINT FK_p_puntoVenta FOREIGN KEY (FK_puntoVenta_puntoValor) REFERENCES puntoValor(codigo_puntoValor)ON DELETE CASCADE
 );
 
-CREATE TABLE pagoWeb_puntoVenta(
-    id_pwpv                             SERIAL,
-    FK_pwpv_pagoWeb                     INTEGER NOT NULL,
-    FK_pwpv_puntoVenta                  INTEGER NOT NULL,
-    
-    
-    CONSTRAINT PK_pagoWeb_puntoVenta PRIMARY KEY (id_pwpv),
-    CONSTRAINT FK_pwpv_pwpv_pagoWeb FOREIGN KEY (FK_pwpv_pagoWeb) REFERENCES pagoWeb(codigo_pagoweb)ON DELETE CASCADE,
-    CONSTRAINT FK_pwpv_puntoVenta FOREIGN KEY (FK_pwpv_puntoVenta) REFERENCES puntoVenta(codigo_puntoVenta)ON DELETE CASCADE
-);
-
 CREATE TABLE telefono(
     Codigo_telefono                     SERIAL,
     numero                              INTEGER NOT NULL,
@@ -511,6 +486,17 @@ CREATE TABLE empleado (
     CONSTRAINT FK_e_empleado_cargo FOREIGN KEY (FK_empleado_cargo) REFERENCES cargo(codigo_cargo) ON DELETE CASCADE
 );
 
+CREATE TABLE almacen (
+    codigo_almacen                      SERIAL, 
+    total_stock                         INTEGER NOT NULL,
+    FK_almacen_empleado                 INTEGER NOT NULL,
+    fk_almacen_tienda                   INTEGER NOT NULL,
+       
+    CONSTRAINT PK_almacen PRIMARY KEY (codigo_almacen),
+    CONSTRAINT FK_a_almacen_empleado FOREIGN KEY (FK_almacen_empleado) REFERENCES empleado(codigo_empleado)  ON DELETE CASCADE,
+    CONSTRAINT FK_a_almacen_tienda FOREIGN KEY (fk_almacen_tienda) REFERENCES tienda(codigo_tienda)  ON DELETE CASCADE         
+);
+
 CREATE TABLE empleado_beneficio(
     id_empBen                           SERIAL,
     FK_empBen_empleado                  INTEGER NOT NULL,
@@ -522,15 +508,7 @@ CREATE TABLE empleado_beneficio(
     CONSTRAINT FK_eb_empBEN_beneficio FOREIGN KEY (FK_empBen_beneficio) REFERENCES beneficio(codigo_beneficio)ON DELETE CASCADE
 );
 
-CREATE TABLE almacen (
-    codigo_almacen                      SERIAL, 
-    total_stock                         INTEGER NOT NULL,
-    FK_almacen_empleado                 INTEGER NOT NULL,
-    
-       
-    CONSTRAINT PK_almacen PRIMARY KEY (codigo_almacen),
-    CONSTRAINT FK_a_almacen_empleado FOREIGN KEY (FK_almacen_empleado) REFERENCES empleado(codigo_empleado)  ON DELETE CASCADE         
-);
+
 
 CREATE TABLE pasillo (
     codigo_pasillo                      SERIAL,
@@ -657,7 +635,7 @@ CREATE TABLE venta(
     total                               Numeric(15,2),
     FK_venta_puntoCompra                INTEGER NOT NULL,
     FK_venta_presupuesto                INTEGER NOT NULL,
-    FK_venta_empleado                   INTEGER NOT NULL,
+    FK_venta_empleado                   INTEGER,
     
     
     CONSTRAINT PK_venta PRIMARY KEY (codigo_venta),
@@ -666,16 +644,42 @@ CREATE TABLE venta(
     CONSTRAINT FK_v_venta_empleado FOREIGN KEY (FK_venta_empleado) REFERENCES empleado(codigo_empleado)ON DELETE CASCADE
 );
 
+CREATE TABLE pagoWeb(
+    codigo_pagoweb                      SERIAL,
+    monto_total                         Numeric(15,2),
+    FK_pagoWeb_tarjetaCredito           INTEGER,
+    FK_pagoWeb_tarjetaDebito            INTEGER,
+    FK_pagoWeb_venta                    INTEGER,
+    
+    
+    CONSTRAINT PK_pagoWeb PRIMARY KEY (codigo_pagoweb),
+    CONSTRAINT FK_pw_pagoWeb_tarjetaCredito FOREIGN KEY (FK_pagoWeb_tarjetaCredito) REFERENCES tarjetaCredito(codigo_tarjetaCredito)ON DELETE CASCADE,
+    CONSTRAINT FK_pw_pagoWeb_tarjetaDebito FOREIGN KEY (FK_pagoWeb_tarjetaDebito) REFERENCES tarjetaDebito(codigo_tarjetaDebito)ON DELETE CASCADE,
+    CONSTRAINT FK_pw_pagoWeb_venta FOREIGN KEY (FK_pagoWeb_venta) REFERENCES venta(codigo_venta)
+);
+
+CREATE TABLE pagoWeb_puntoVenta(
+    id_pwpv                             SERIAL,
+    FK_pwpv_pagoWeb                     INTEGER NOT NULL,
+    FK_pwpv_puntoVenta                  INTEGER NOT NULL,
+    
+    
+    CONSTRAINT PK_pagoWeb_puntoVenta PRIMARY KEY (id_pwpv),
+    CONSTRAINT FK_pwpv_pwpv_pagoWeb FOREIGN KEY (FK_pwpv_pagoWeb) REFERENCES pagoWeb(codigo_pagoweb)ON DELETE CASCADE,
+    CONSTRAINT FK_pwpv_puntoVenta FOREIGN KEY (FK_pwpv_puntoVenta) REFERENCES puntoVenta(codigo_puntoVenta)ON DELETE CASCADE
+);
+
 CREATE TABLE estatus_conexe(
     id_ecx                              SERIAL,
     fecha_hora                          TIMESTAMP,
     FK_ecx_venta                        INTEGER NOT NULL,
     FK_ecx_compra                       INTEGER NOT NULL,
-    
+    FK_ecx_estatus                      INTEGER NOT NULL,
     
     CONSTRAINT PK_estatus_conex PRIMARY KEY (id_ecx),
-    CONSTRAINT FK_ec_ecx_venta FOREIGN KEY (FK_ecx_venta) REFERENCES venta(codigo_venta)ON DELETE CASCADE,
-    CONSTRAINT FK_ec_ecx_compra FOREIGN KEY (FK_ecx_compra) REFERENCES compra(codigo_compra)ON DELETE CASCADE
+    CONSTRAINT FK_ec_ecx_venta FOREIGN KEY (FK_ecx_venta) REFERENCES venta(codigo_venta) ON DELETE CASCADE,
+    CONSTRAINT FK_ec_ecx_compra FOREIGN KEY (FK_ecx_compra) REFERENCES compra(codigo_compra) ON DELETE CASCADE,
+    CONSTRAINT FK_ec_ecx_estatus FOREIGN KEY (FK_ecx_estatus) REFERENCES estatus(codigo_estatus) ON DELETE CASCADE
 );
 
 CREATE TABLE punto_puntoValor(
@@ -771,7 +775,7 @@ CREATE TABLE pagoTienda (
 /*ESTA EXTENSION SOLO SE DEBE CREAR UNA VEZ, SI YA SE CREO NO SE CARGA CON LAS TABLAS*/
 
 
-/*CREATE EXTENSION pgcrypto; */
+/*CREATE EXTENSION pgcrypto;*/
 
 
 /*ESTA EXTENSION SOLO SE DEBE CREAR UNA VEZ, SI YA SE CREO NO SE CARGA CON LAS TABLAS*/

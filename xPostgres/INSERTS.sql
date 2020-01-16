@@ -1613,7 +1613,8 @@ INSERT INTO privilegio(nombre) VALUES
 ('faltaD'),
 ('pasopreparacionD'),
 ('proveedor_tipocervezaD'),
-('imagencervezaD');
+('imagencervezaD'),
+('cajera');
 
 INSERT INTO actividad(nombre,tipo,fecha_actividad,descripcion) VALUES
 ('Conversatorio sobre las cervezas','Conversatorio','18/11/2019 02:22:25','Debatir cuales son las cervezas mas vendidas y porque'),
@@ -1851,13 +1852,6 @@ INSERT INTO compra(fecha,total,FK_compra_proveedor) VALUES
 ('29/11/2019',4000000,4),
 ('25/11/2019',5000000,5);
 
-INSERT INTO pagoWeb(monto_total,FK_pagoWeb_tarjetaCredito,FK_pagoWeb_tarjetaDebito) VALUES
-(1000000,1,null),
-(2000000,2,null),
-(3000000,null,3),
-(100000,4,null),
-(400000,null,5);
-
 INSERT INTO usuario(nombre,password,remember_token,FK_usuario_rol) VALUES 
 ('diego',crypt('1234', gen_salt('bf', 8)),null,1),
 ('carlos',crypt('1234', gen_salt('bf', 8)),null,1),
@@ -1876,7 +1870,11 @@ INSERT INTO usuario(nombre,password,remember_token,FK_usuario_rol) VALUES
 ('gerente',crypt('1234', gen_salt('bf', 8)),null,3);
 
 INSERT INTO tienda(rif,nombre,FK_tienda_lugar) VALUES 
-('5S5DAS33Y4NQL63A','social media beer',29);
+('5S5DAS33Y4NQL63A','ACAVUCAB',29),
+('7A5D21VA0QLF63AN','Social Media Beer',29),
+('ASF4A45F4LS5A6CQ','Chiguiere Con Bigote',29),
+('H6F2C12M3Y9L40AI','EDN',29),
+('5D9W9XKE21VA0QLO','DOWNY BEER',29);
 
 INSERT INTO cargo(nombre) VALUES 
 ('Jefe de cajeros'),
@@ -1892,12 +1890,12 @@ INSERT INTO empleado(nombre,apellido,cedula,FK_empleado_usuario,FK_empleado_tien
 ('Salvador','Perez','26009850',14,1,4),
 ('Alberto','Gonzalez','26166650',15,1,5);
 
-INSERT INTO almacen(total_stock,FK_almacen_empleado) VALUES 
-(1000,1),
-(2000,1),
-(3000,1),
-(4000,1),
-(5000,1);
+INSERT INTO almacen(total_stock,FK_almacen_empleado,fk_almacen_tienda) VALUES 
+(1000,1,1),
+(2000,2,2),
+(3000,3,3),
+(4000,4,4),
+(5000,5,5);
 
 INSERT INTO pasillo(numero_pasillo,letra_pasillo,FK_pasillo_almacen) VALUES 
 (1,'A',1),
@@ -1920,19 +1918,19 @@ INSERT INTO clienteJuridico(rif,denominacion_comercial,numero_carnet,razon_socia
 ('ASF4A45F4LS5A6C','licoreria el fogon',984721,'aranceles del fogon.',10000000,27,27,8),
 ('5STDAS0Y4NQL63A','Bodegon las extrellas',9876358,'extrellas venezuela.',70000000,28,28,10);
 
-INSERT INTO clienteNatural(rif,numeroCarnet,nombre,apellido,cedula,FK_clienteNatural_lugar,FK_clienteNatural_usuario) VALUES
+INSERT INTO clienteNatural(rif,numero_carnet,nombre,apellido,cedula,FK_clienteNatural_lugar,FK_clienteNatural_usuario) VALUES
 ('5S5DAS0Y4N7L63A',24,'Diego','Rojas',18035742,25,1),
 ('ASF4A45F4A95A6C',456,'Miguel','Yang',20764250,25,3),
 ('5D9W9X5E21V30QL',2345,'Thayris','Gonzales',10267547,25,5),
 ('7A5DV51VA0QL63A',14532,'Rebeca','Perez',133014,25,7),
 ('H6F2C12M3Y9L40A',15673,'Rabindra','Harichand',18031542,25,9);
 
-INSERT INTO presupuesto(fecha_presupuesto,totalPresupuesto,FK_presupuesto_clienteNatural, FK_presupuesto_clienteJuridico) VALUES
-('11/11/2019',1600000,Null,1),
-('16/11/2019',800000,1,Null),
-('20/11/2019',360000,4,Null),
-('28/11/2019',1360000,Null,2),
-('04/12/2019',400000,Null,5);
+INSERT INTO presupuesto(fecha,total,FK_presupuesto_clienteNatural, FK_presupuesto_clienteJuridico) VALUES
+('18/11/2019 02:22:25',1600000,Null,1),
+('20/11/2019 03:44:50',800000,1,Null),
+('26/11/2019 04:05:01',360000,4,Null),
+('03/12/2019 05:22:25',1360000,Null,2),
+('09/12/2019 06:35:12',400000,Null,5);
 
 INSERT INTO email(direccion_email,FK_email_proveedor,FK_email_clienteJuridico) VALUES
 ('diego_ard10000@hotmail.com',1,1),
@@ -1989,13 +1987,6 @@ INSERT INTO puntoVenta(cantidad,FK_puntoVenta_puntoValor) VALUES
 (900000,4),
 (1200000,5);
 
-INSERT INTO pagoWeb_puntoVenta(FK_pwpv_pagoWeb,FK_pwpv_puntoVenta) VALUES
-(1,1),
-(2,2),
-(3,3),
-(4,4),
-(5,5);
-
 INSERT INTO telefono(numero,cod_area,FK_telefono_proveedor,FK_telefono_clienteNatural,FK_telefono_clienteJuridico) VALUES
 (0204089,0412,Null,Null,1),
 (4612331,0414,1,Null,Null),
@@ -2040,6 +2031,7 @@ INSERT INTO cerveza(nombre,precio,caloria,Volumen,historia,FK_cerveza_anaquel,FK
 
 INSERT INTO detalle_Compra(cantidad,precio,tipo,FK_dc_compra,FK_dc_cerveza) VALUES
 (10,500000,'Compra',1,1),
+(10,500000,'Compra',1,2),
 (5,300000,'Compra ',2,2),
 (26,1400000,'Compra',3,3),
 (32,2200000,'Compra',4,4),
@@ -2071,18 +2063,32 @@ INSERT INTO vacacion(fecha_inicio,fecha_fin,FK_vacacion_empleado) VALUES
 ('08/07/2019','08/08/2019',5);
 
 INSERT INTO venta(numero_facturaVenta,fecha_venta,total,FK_venta_puntoCompra,FK_venta_presupuesto,FK_venta_empleado) VALUES
-(1,'10/10/2019',900000,1,1,1),
-(2,'25/10/2019',1350000,2,2,2),
-(3,'7/11/2019',2200000,3,3,3),
-(4,'30/11/2019',8000000,4,4,4),
-(5,'4/12/2019',20000000,5,5,5);
+(0001,'10/10/2019',900000,1,1,1),
+(0002,'25/10/2019',1350000,2,2,2),
+(0003,'7/11/2019',2200000,3,3,3),
+(0004,'30/11/2019',8000000,4,4,4),
+(0005,'4/12/2019',20000000,5,5,5);
 
-INSERT INTO estatus_conexe(fecha_hora,FK_ecx_venta,FK_ecx_compra) VALUES
-('01/11/2019',1,1),
-('09/11/2019',2,2),
-('16/11/2019',3,3),
-('20/11/2019',4,4),
-('27/11/2019',5,5);
+INSERT INTO pagoWeb(monto_total,FK_pagoWeb_tarjetaCredito,FK_pagoWeb_tarjetaDebito,FK_pagoWeb_venta) VALUES
+(1000000,1,null,1),
+(2000000,2,null,2),
+(3000000,null,3,3),
+(100000,4,null,4),
+(400000,null,5,5);
+
+INSERT INTO pagoWeb_puntoVenta(FK_pwpv_pagoWeb,FK_pwpv_puntoVenta) VALUES
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5);
+
+INSERT INTO estatus_conexe(fecha_hora,FK_ecx_venta,FK_ecx_compra,FK_ecx_estatus) VALUES
+('01/11/2019',1,1,1),
+('09/11/2019',2,2,2),
+('16/11/2019',3,3,3),
+('20/11/2019',4,4,4),
+('27/11/2019',5,5,5);
 
 INSERT INTO punto_puntoValor(FK_pp_puntoValor,FK_pp_puntoCompra) VALUES
 (1,1),
@@ -2093,7 +2099,6 @@ INSERT INTO punto_puntoValor(FK_pp_puntoValor,FK_pp_puntoCompra) VALUES
 
 INSERT INTO detalleVenta(cantidad,precio,FK_detalleVenta_venta,FK_detalleVenta_cerveza) VALUES
 (10,1000000,1,1),
-(10,1000000,1,2),
 (15,1500000,2,2),
 (20,1200000,3,3),
 (100,10000000,4,4),

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -66,6 +67,7 @@
           <li class="nav-item active">
             <a class="nav-link" href="main">Inicio</a>
           </li>
+          <?php $total_cantidad = 0 ?>
           <li class="nav-item">
             <a class="nav-link" href="main">Productos</a>
           </li>
@@ -106,38 +108,70 @@
       </div>
     </nav>
 
-    <div class="row">
-        <div class="boxed" style="margin-left:50px; margin-top:25px;">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Carro de compras</span>
-          </h4>
-          <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Producto 1</h6>
-              </div>
-              <span class="text-muted">120,000.00 Bs</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Producto 2</h6>
-              </div>
-              <span class="text-muted">80,000.00 Bs</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Producto 3</h6>
-              </div>
-              <span class="text-muted">50,000.00 Bs</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span><font color="green">Total </font></span>
-              <strong><font color="green"><b>250,000.00 Bs</b></font></strong>
-            </li>
-          </ul>
+<div>
+  <div class="txt-heading">Carro de Compras</div>
+
+  </div>
+<hr>
+
+     <table id="cart" class="table table-hover table-condensed">
+        <thead>
+        <tr>
+            <th style="width:50%">Producto</th>
+            <th style="width:10%">Precio</th>
+            <th style="width:8%">Cantidad</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+        </thead>
+        <tbody>
+ 
+        <?php $total = 0 ?>
+ 
+        @if(session('cart'))
+            @foreach(session('cart') as $id => $details)
+ 
+                <?php $total += $details['price'] * $details['quantity'] ?>
+                
+                <?php $total_cantidad += $details['quantity'] ?>
+ 
+                <tr>
+                    <td data-th="Producto">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h4 class="nomargin">{{ $details['name'] }}</h4>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Precio">${{ $details['price'] }}</td>
+                    <td data-th="Cantidad">
+                        <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity" />
+                    </td>
+                    <td data-th="Subtotal" class="text-center">${{ $details['price'] * $details['quantity'] }}</td>
+                    <td class="actions" data-th="">
+                        <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fa fa-refresh"></i></button>
+                        <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+            @endforeach
+        @endif
+ 
+        </tbody>
+        <tfoot>
+        <tr class="visible-xs">
+            <td class="text-center"><strong>Total {{ $total }}</strong></td>
+        </tr>
+        <tr>
+            <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuar comprando</a></td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td class="hidden-xs text-center"><strong>Total ${{ $total }}</strong></td>
+        </tr>
+        </tfoot>
+    </table>
 
         </div>
-        <div class="col-md-8 order-md-1" style="margin-left:20px">
+        <hr>
+        <div>
           <h4 class="mb-3" style="text-align:center; margin-top:25px">Pago</h4>
           <hr>
           <form class="needs-validation" novalidate>
@@ -149,112 +183,205 @@
     	        <div class="input-group-prepend">
 		            <span class="input-group-text"> <i class="fa fa-credit-card"></i> </span>
               </div>
-              <select class="form-control" onchange="show(this);" required>        <!-- dropdown//TIPO DE CLIENTE -->
+              <select class="form-control" onchange="show(this);" required>        <!-- dropdown//TIPO DE PAGO -->
                 <option value="0">Seleccione su método de pago...</option>
 			          <option value="credit">Tarjeta de crédito</option>
 			          <option value="debit">Tarjeta de débito</option>
-                <option value="cheque">Cheque</option>
                 <option value="punto">Punto</option>
-                <option value="divisa">Divisa</option>
                 <option value="transferencia">Transferencia</option>
               </select>
             </div>
             </div> 
 
+<!-- TARJETA DE CREDITO -->
+
             <div id="credit" style="display: none">
             <hr>
+            <form class="needs-validation" novalidate method="POST" action="insertVenta">
+            @csrf
                 <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="cc-name">Titular de la tarjeta</label>
-                    <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                    <label for="nameC">Titular de la tarjeta</label>
+                    <input type="text" class="form-control" id="nameC" placeholder="" required>
                     <div class="invalid-feedback">
                         Titular de la tarjeta requerida
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="cc-number">Número de tarjeta de crédito</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                    <label for="numberC">Número de tarjeta de crédito</label>
+                    <input type="text" class="form-control" name="numberC" id="numberCr" placeholder="" required>
                     <div class="invalid-feedback">
                         Número de tarjeta de crédito requerido
                     </div>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <label for="bankC">Banco</label>
+                    <select class="form-control" id="bankC" name="selectB" required>        <!-- dropdown//TIPO DE PAGO -->
+                    @foreach ($banco as $b)
+                      <option value="{{$b->codigo_banco}}">{{$b->nombre}}</option>
+                    @endforeach
+                    </select>
+                </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <label for="cc-expiration">Vencimiento</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                        <label for="expirationC">Vencimiento</label>
+                        <input type="text" class="form-control" id="expirationC" placeholder="" required>
                     <div class="invalid-feedback">
                         Fecha de vencimiento requerido
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="cc-cvv">Código de seguridad</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                    <label for="cvvC">Código de seguridad</label>
+                    <input type="text" class="form-control" id="cvvC" placeholder="" required>
                     <div class="invalid-feedback">
                         Código de seguridad requerido
                     </div>
                 </div>
                 </div>
+
+                <input type="hidden" name="cantidadTotal" value={{$total_cantidad}}>
+                <input type="hidden" name="precioTotal" value={{$total}}>
+
+                <!-- BOTON DE PAGO -->
+                <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" name="creditPago" type="submit" style="background-color:#ffff66; border-color:#000000; width=120px;"><font color="black">Realizar pago</font></button>
+            </form>
             </div>
+
+<!-- TARJETA DE DEBITO -->
 
             <div id="debit" style="display: none">
             <hr>
+            <form class="needs-validation" novalidate method="POST" action="insertVenta">
+            @csrf
                 <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="cc-name">Titular de la tarjeta</label>
-                    <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                    <label for="nameD">Titular de la tarjeta</label>
+                    <input type="text" class="form-control" id="nameD" placeholder="" required>
                     <div class="invalid-feedback">
                         Titular de la tarjeta requerida
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="cc-number">Número de tarjeta de débito</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                    <label for="numberD">Número de tarjeta de débito</label>
+                    <input type="text" class="form-control" name="numberD" id="numberDe" placeholder="" required>
                     <div class="invalid-feedback">
                         Número de tarjeta de débito requerido
                     </div>
                 </div>
+                <div class="col-md-6 mb-3">
+                <label for="bankD">Banco</label>
+                    <select class="form-control" id="bankD" name="selectB" required>        <!-- dropdown//TIPO DE PAGO -->
+                    @foreach ($banco as $b)
+                      <option value="{{$b->codigo_banco}}">{{$b->nombre}}</option>
+                    @endforeach
+                    </select>
+                </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <label for="cc-expiration">Vencimiento</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                        <label for="expirationD">Vencimiento</label>
+                        <input type="text" class="form-control" id="expirationD" placeholder="" required>
                     <div class="invalid-feedback">
                         Fecha de vencimiento requerido
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="cc-cvv">Código de seguridad</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                    <label for="cvvD">Código de seguridad</label>
+                    <input type="text" class="form-control" id="cvvD" placeholder="" required>
                     <div class="invalid-feedback">
                         Código de seguridad requerido
                     </div>
                 </div>
                 </div>
+
+                <input type="hidden" name="cantidadTotal" value={{$total_cantidad}}>
+                <input type="hidden" name="precioTotal" value={{$total}}>
+
+                <!-- BOTON DE PAGO -->
+                <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" name="debitPago" type="submit" style="background-color:#ffff66; border-color:#000000; width=120px;"><font color="black">Realizar pago</font></button>
+            </form>
             </div>
 
-            <div id="cheque" style="display: none">
-            <hr>
-              <p>DATOS DE CHEQUE</p>
-            </div>
+<!-- PUNTO -->
 
             <div id="punto" style="display: none">
             <hr>
-              <p>DATOS DE PUNTO</p>
+            <form class="needs-validation" novalidate method="POST" action="insertVenta">
+            @csrf
+              <p>PAGO CON PUNTOS</p>
+
+              <?php
+                foreach ($venta as $ven){
+                  if ($ven->FK_venta_empleado = 1){
+                    foreach ($puntoCompra as $pc){
+                      if ($pc->codigo_puntoCompra == $ven->FK_venta_puntoCompra){
+                          $puntos = 0;
+                          $puntos += $pc->cantidad;
+                      }
+                    }
+                  }
+                }
+
+                foreach ($puntoValor as $pv){
+                  if ($pv->fecha = date('d/m/Y')){
+                      $divide = $pv->valor;
+                  }
+              }
+
+              $totalpuntos = $total_cantidad / $divide;
+              ?>
+
+              <p>Usted tiene <?php echo $puntos; ?> puntos</p>
+              <p>Puntos a pagar:  <?php echo $totalpuntos; ?> puntos</p>
+              <input type="hidden" name="puntosT" value={{$totalpuntos}}>
+              
+              <input type="hidden" name="cantidadTotal" value={{$total_cantidad}}>
+              <input type="hidden" name="precioTotal" value={{$total}}>
+
+          <!-- BOTON DE PAGO -->
+              <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" name="puntoPago" type="submit" style="background-color:#ffff66; border-color:#000000; width=120px;" <?php if ($puntos < $totalpuntos){ ?> disabled <?php   } ?>><font color="black">Realizar pago</font></button>
+            </form>
             </div>
 
-            <div id="divisa" style="display: none">
-            <hr>
-              <p>DATOS DE DIVISA</p>
-            </div>
+<!-- TRANSFERENCIA -->
 
             <div id="transf" style="display: none">
             <hr>
-              <p>DATOS DE TRANSFERENCIA</p>
+            <form class="needs-validation" novalidate method="POST" action="insertVenta">
+            @csrf
+              <p> TRANSFERENCIA </p>
+              <hr>
+              <div class="row">
+                    <div class="col-md-3 mb-3">
+                    <label for="bankT">Banco</label>
+                    <select class="form-control" id="bankT" name="selectB" required>        <!-- dropdown//TIPO DE PAGO -->
+                    @foreach ($banco as $b)
+                      <option value="{{$b->codigo_banco}}">{{$b->nombre}}</option>
+                    @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                        <label for="numtransf">Número de transferencia</label>
+                        <input type="text" class="form-control" name="numT" id="numtransf" placeholder="" required>
+                    <div class="invalid-feedback">
+                        Número de transferencia requerido
+                    </div>
+                </div>
+              </div>
+
+              <input type="hidden" name="cantidadTotal" value={{$total_cantidad}}>
+              <input type="hidden" name="precioTotal" value={{$total}}>
+
+          <!-- BOTON DE PAGO -->
+              <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" name="transfPago" type="submit" style="background-color:#ffff66; border-color:#000000; width=120px;"><font color="black">Realizar pago</font></button>
+            </form>
             </div>
 
-            <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit" style="background-color:#ffff66; border-color:#000000; width=120px;"><font color="black">Realizar pago</font></button>
           </form>
         </div>
       </div>
@@ -300,9 +427,7 @@
             txt = obj.options[obj.selectedIndex].value;
             document.getElementById("credit").style.display = 'none';
             document.getElementById("debit").style.display = 'none';
-            document.getElementById("cheque").style.display = 'none';
             document.getElementById("punto").style.display = 'none';
-            document.getElementById("divisa").style.display = 'none';
             document.getElementById("transf").style.display = 'none';
 
             if(txt.match("credit")){
@@ -311,19 +436,48 @@
             if(txt.match("debit")){
                 document.getElementById("debit").style.display = 'block';
             }
-            if(txt.match("cheque")){
-                document.getElementById("cheque").style.display = 'block';
-            }
             if(txt.match("punto")){
                 document.getElementById("punto").style.display = 'block';
-            }
-            if(txt.match("divisa")){
-                document.getElementById("divisa").style.display = 'block';
             }
             if(txt.match("transf")){
                 document.getElementById("transf").style.display = 'block';
             }
     }
     </script>
+
+<script type="text/javascript">
+$(".update-cart").click(function (e) {
+    e.preventDefault();
+
+    var ele = $(this);
+
+     $.ajax({
+        url: '{{ url('update-cart') }}',
+        method: "patch",
+        data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"), quantity: ele.parents("tr").find(".quantity").val()},
+        success: function (response) {
+            window.location.reload();
+        }
+     });
+ });
+
+ $(".remove-from-cart").click(function (e) {
+     e.preventDefault();
+
+     var ele = $(this);
+
+     if(confirm("Está seguro?")) {
+         $.ajax({
+             url: '{{ url('remove-from-cart') }}',
+             method: "DELETE",
+             data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
+             success: function (response) {
+                 window.location.reload();
+             }
+         });
+     }
+ });
+ </script>
+ 
   </body>
 </html>

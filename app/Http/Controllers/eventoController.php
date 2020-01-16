@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
 use App\evento;
+use App\ventum;
+use App\puntocompra;
+use App\puntovalor;
+use App\banco;
 use Illuminate\Http\Request;
 
 class eventoController extends Controller
@@ -119,5 +123,187 @@ class eventoController extends Controller
         evento::destroy($id);
 
         return redirect('evento')->with('flash_message', 'evento deleted!');
+    }
+
+    // -------------------------------------------------------- CARRO ------------------------------------------------------ 
+
+    public function cart()
+    {
+        $puntoValor = puntovalor::all();
+        $puntoCompra = puntocompra::all();
+        $venta = ventum::all();
+        $banco = banco::all(); 
+        return view('compracliente',compact('puntoValor','puntoCompra','venta', 'banco'));
+    }
+
+    public function addToCart($id)
+    {
+        $product = entrada::find($id);
+ 
+        if(!$product) {
+ 
+            abort(404);
+ 
+        }
+ 
+        $cart = session()->get('cart');
+ 
+        // if cart is empty then this the first product
+        if(!$cart) {
+ 
+            $cart = [
+                    $id => [
+                        "name" => $product->nombre,
+                        "quantity" => 1,
+                        "price" => $product->estatus,
+                    ]
+            ];
+ 
+            session()->put('cart', $cart);
+ 
+            return redirect()->back()->with('success', 'El producto se ha añadido satisfactoriamente!');
+        }
+ 
+        // if cart not empty then check if this product exist then increment quantity
+        if(isset($cart[$id])) {
+ 
+            $cart[$id]['quantity']++;
+ 
+            session()->put('cart', $cart);
+ 
+            return redirect()->back()->with('success', 'El producto se ha añadido satisfactoriamente!');
+ 
+        }
+ 
+        // if item not exist in cart then add to cart with quantity = 1
+        $cart[$id] = [
+            "name" => $product->nombre,
+            "quantity" => 1,
+            "price" => $product->estatus,
+        ];
+ 
+        session()->put('cart', $cart);
+ 
+        return redirect()->back()->with('success', 'El producto se ha añadido satisfactoriamente!');
+    }
+
+    public function updateC(Request $request)
+    {
+        if($request->id and $request->quantity)
+        {
+            $cart = session()->get('cart');
+ 
+            $cart[$request->id]["quantity"] = $request->quantity;
+ 
+            session()->put('cart', $cart);
+ 
+            session()->flash('success', 'El carro de compras se ha actualizado');
+        }
+    }
+ 
+    public function remove(Request $request)
+    {
+        if($request->id) {
+ 
+            $cart = session()->get('cart');
+ 
+            if(isset($cart[$request->id])) {
+ 
+                unset($cart[$request->id]);
+ 
+                session()->put('cart', $cart);
+            }
+ 
+            session()->flash('success', 'Producto eliminado satisfactoriamente');
+        }
+    }
+
+    // -------------------------------------------------------- CAJERA ------------------------------------------------------ 
+    
+    public function cajera()
+    {
+        return view('cajera');
+    }
+
+    public function addToCajera($id)
+    {
+        $product = entrada::find($id);
+ 
+        if(!$product) {
+ 
+            abort(404);
+ 
+        }
+ 
+        $cajera = session()->get('cajera');
+ 
+        // if cart is empty then this the first product
+        if(!$cajera) {
+ 
+            $cajera = [
+                    $id => [
+                        "name" => $product->nombre,
+                        "quantity" => 1,
+                        "price" => $product->estatus,
+                    ]
+            ];
+ 
+            session()->put('cajera', $cajera);
+ 
+            return redirect()->back()->with('success', 'El producto se ha añadido satisfactoriamente!');
+        }
+ 
+        // if cart not empty then check if this product exist then increment quantity
+        if(isset($cajera[$id])) {
+ 
+            $cajera[$id]['quantity']++;
+ 
+            session()->put('cajera', $cajera);
+ 
+            return redirect()->back()->with('success', 'El producto se ha añadido satisfactoriamente!');
+ 
+        }
+ 
+        // if item not exist in cart then add to cart with quantity = 1
+        $cajera[$id] = [
+            "name" => $product->nombre,
+            "quantity" => 1,
+            "price" => $product->estatus,
+        ];
+ 
+        session()->put('cajera', $cajera);
+ 
+        return redirect()->back()->with('success', 'El producto se ha añadido satisfactoriamente!');
+    }
+
+    public function updateCa(Request $request)
+    {
+        if($request->id and $request->quantity)
+        {
+            $cajera = session()->get('cajera');
+ 
+            $cajera[$request->id]["quantity"] = $request->quantity;
+ 
+            session()->put('cajera', $cajera);
+ 
+            session()->flash('success', 'El carro de compras se ha actualizado');
+        }
+    }
+ 
+    public function removeCa(Request $request)
+    {
+        if($request->id) {
+ 
+            $cajera = session()->get('cajera');
+ 
+            if(isset($cajera[$request->id])) {
+ 
+                unset($cajera[$request->id]);
+ 
+                session()->put('cajera', $cajera);
+            }
+ 
+            session()->flash('success', 'Producto eliminado satisfactoriamente');
+        }
     }
 }

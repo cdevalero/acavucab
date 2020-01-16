@@ -50,7 +50,6 @@ Route::get('cajera', function () {
 
 Route::post('cambioclave','vistasControlador@cambiclave')->middleware('permiso:cliente');
 
-
 Route::get('evento{id}','vistasControlador@eventoMostrar');
 
 Route::get('main','vistasControlador@getCerveza2');
@@ -65,11 +64,64 @@ Route::get('producto{id}', 'vistasControlador@getUnaCerveza');
 
 Route::get('evento{id}', 'vistasControlador@eventoMostrar');
 
-Route::post('afiliacionmanual', 'vistasControlador@afiliacionmanual');
+// CARRO
 
-Route::get('carro', function () {
-    return view('compracliente');
-})->middleware('permiso:cliente');
+Route::get('carro', 'cervezaController@cart')->middleware('permiso:cliente');
+
+Route::get('carro', 'eventoController@cart')->middleware('permiso:cliente');
+
+Route::get('add-to-cart/{id}', 'cervezaController@addToCart');
+
+Route::get('add-to-carte/{id}', 'eventoController@addToCart');
+
+Route::patch('update-cart', 'cervezaController@updateC');
+ 
+Route::delete('remove-from-cart', 'cervezaController@remove');
+
+Route::patch('update-cart-e', 'eventoController@updateC');
+ 
+Route::delete('remove-from-cart-e', 'eventoController@remove');
+
+// END CARRO
+
+//CAJA
+
+Route::get('cajera', 'cervezaController@cajera');
+
+Route::get('cajera', 'eventoController@cajera');
+
+Route::get('add-to-caj/{id}', 'cervezaController@addToCajera');
+
+Route::get('add-to-caje/{id}', 'eventoController@addToCajera');
+
+Route::patch('update-caj', 'cervezaController@updateCa');
+ 
+Route::delete('remove-from-caj', 'cervezaController@removeCa');
+
+Route::patch('update-caj-e', 'eventoController@updateCa');
+ 
+Route::delete('remove-from-caj-e', 'eventoController@removeCa');
+
+//END CAJA
+
+Route::get('compracliente', 'vistasControlador@compraCliente')->middleware('permiso:cliente');
+
+
+Route::get('compracliente', 'vistasControlador@compraCliente')->middleware('permiso:cliente');
+
+Route::get('cajera', 'vistasControlador@cajera');
+
+Route::get('configuracion', 'vistasControlador@config')->middleware('permiso:cliente');
+
+Route::post('insertVenta', 'vistasControlador@insertVenta');
+
+Route::post('insertVentaT', 'vistasControlador@insertVentaT');
+
+Route::post('insertCompra', 'vistasControlador@insertCompra');
+
+Route::post('pagoAfiliacion', 'vistasControlador@pagoAfiliacion');
+
+Route::post('afiliacionmanual', 'vistasControlador@afiliacionmanual');
 
 Route::get('configuracion', function () {
     return view('configuracion');
@@ -77,10 +129,6 @@ Route::get('configuracion', function () {
 
 Route::get('archivo', function () {
     return view('archivo');
-});
-
-Route::post('data.archivo', function (Request $request) {
-    return compact('request');
 });
 
 Route::post('data_archivo', 'vistasControlador@archivo');

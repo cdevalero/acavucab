@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,6 +119,7 @@
       <div class="col-lg-10">
 
         <div class="card mt-4" style="margin-bottom: 75px">
+        <form method="POST" action="">
           <img class="card-img-top img-fluid" src="{{asset('storage').'/'.$imagenCerveza}}" alt="">
           <div class="card-body">
             <h3 class="card-title">{{$cerveza->nombre}}</h3>
@@ -126,14 +131,19 @@
             @endif
             @endif
             @endforeach
-            
+
             <p class="card-text">{{$cerveza->historia}}</p>
             <br>
             <hr>
             <div class="container">
-                <button class="btn btn-lg btn-primary btn-block" type="button" style="background-color:#ffff66; border-color:#000000; margin-left:15px;"><a href="#" style="color:#000000"><b>Añadir al carro de compra</b></a></button>
+            <form method="POST" action="">
+              <input type="hidden" name="precioOferta" value="{{($cerveza->precio)-((($cerveza->precio)*$d->porcentaje_descuento)/100)}}">
+              <input type="submit">
+            </form>
+            <p class="btn-holder"><a href="{{ url('add-to-cart/'.$cerveza->codigo_cerveza) }}" class="btn btn-warning btn-block text-center" role="button">Añadir al carro de compras</a> </p>
             </div>
-        </div>
+        </form>
+      </div>
         <!-- /.card -->
 
       </div>

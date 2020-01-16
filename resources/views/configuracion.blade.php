@@ -113,6 +113,12 @@
         @endif
         
 
+        @if (Auth::user())
+          @if (Auth::user()->permiso('cajera'))
+          <a href="{{ url('cajera') }}"  >Cajera</a>
+          @endif
+        @endif
+
         <a href="#facturar"  onclick="changePart('#facturar');">Facturación</a>
         <a href="#evento" onclick="changePart('#evento');">Organizar eventos</a>
         <a href="#cambioClave"  onclick="changePart('#cambioClave');">Cambiar clave</a>
