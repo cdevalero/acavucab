@@ -1,11 +1,9 @@
 ## Asociación de Cerveceros Artesanales Venezolanos de la UCAB
 
-Proyecto de 6to semestre de ingenieria informatica en la Universiada Catolica Andres Bello.
+6th semester project of computer engineering at the Universidad Católica Andrés Bello (UCAB).
 
-Preriodo 2019-2020
+2019-2020 period.
 
-#Participantes en el protecto 
+Project description: https://drive.google.com/file/d/1Lfhjn-HdPX0W9MQg0Ve6mgCxh1DV9VNz/view?usp=sharing 
 
-Carlos Valero
-Diego Rojas
-Miguel Yang
+Entity–relationship model: https://drive.google.com/file/d/1_fqHQLSmCkBC6qgdrS3s50Gk66WK22T3/view?usp=sharing
