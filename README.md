@@ -6,8 +6,4 @@
 
 Project description: https://drive.google.com/file/d/1Lfhjn-HdPX0W9MQg0Ve6mgCxh1DV9VNz/view?usp=sharing 
 
-<<<<<<< HEAD
 Entity–relationship model: https://drive.google.com/file/d/1_fqHQLSmCkBC6qgdrS3s50Gk66WK22T3/view?usp=sharing
-=======
-Entity–relationship model: https://drive.google.com/file/d/1_fqHQLSmCkBC6qgdrS3s50Gk66WK22T3/view?usp=sharing
->>>>>>> f2a3e99dfeeb7cddd182eced89cd363cc6f5de80
