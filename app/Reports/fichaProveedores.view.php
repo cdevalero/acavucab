@@ -8,9 +8,11 @@ use \koolreport\widgets\koolphp\Table;
     <body>
     <h1>Ficha de Proveedores</h1>
         <?php
-            \koolreport\widgets\google\table::create(array(
+            Table::create([
                 "dataSource"=>$this->dataStore("fichaProveedores")
-            ));
+            ]);
+
+            return $this->dataStore("fichaProveedores");
         ?>
     </body>
 </html> 

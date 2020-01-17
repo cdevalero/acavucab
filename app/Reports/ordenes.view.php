@@ -8,9 +8,11 @@ use \koolreport\widgets\koolphp\Table;
     <body>
     <h1>Ordenes</h1>
         <?php
-            \koolreport\widgets\google\barchart::create(array(
-                "dataSource"=>$this->dataStore("ordenes")
-            ));
+           Table::create([
+            "dataSource"=>$this->dataStore("ordenes")
+        ]);
+        
+        return $this->dataStore("ordenes");
         ?>
     </body>
 </html> 

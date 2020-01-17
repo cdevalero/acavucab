@@ -12,17 +12,7 @@ class totalpuntos extends \koolreport\KoolReport
     {
         $this->src("pgsql")
         ->query("
-        SElECT CJ.denominacion_comercial, PC.cantidad, PVE.cantidad
-        FROM clienteJuridico CJ, puntoCompra PC, punto_puntoValor PPV, puntoValor PVA, puntoVenta PVE, venta V, presupuesto P
-        WHERE P.FK_presupuesto_clienteJuridico = CJ.codigo_clienteJuridico
-        AND V.FK_venta_presupuesto = P.codigo_presupuesto 
-        AND V.FK_venta_puntoCompra = PC.codigo_puntoCompra
-        AND PPV.FK_pp_puntoCompra = PC.codigo_puntoCompra
-        AND PPV.FK_pp_puntoCompra = PVA.codigo_puntoValor
-        AND PVE.FK_puntoVenta_puntoValor = PVA.codigo_puntoValor
-        AND V.fecha_venta BETWEEN :inicio AND :fin
-        UNION all
-        SElECT CN.nombre, PC.cantidad, PVE.cantidad
+        SElECT (CN.nombre||' '|| CN.apellido) AS Nombre_completo, (PC.cantidad) AS Puntos_Otorgados , (PVE.cantidad) AS Puntos_Canjeados
         FROM clienteNatural CN, puntoCompra PC, punto_puntoValor PPV, puntoValor PVA, puntoVenta PVE, venta V, presupuesto P
         WHERE P.FK_presupuesto_clienteNatural = CN.codigo_clienteNatural
         AND V.FK_venta_presupuesto = P.codigo_presupuesto 
@@ -30,7 +20,7 @@ class totalpuntos extends \koolreport\KoolReport
         AND PPV.FK_pp_puntoCompra = PC.codigo_puntoCompra
         AND PPV.FK_pp_puntoCompra = PVA.codigo_puntoValor
         AND PVE.FK_puntoVenta_puntoValor = PVA.codigo_puntoValor
-        AND V.fecha_venta BETWEEN :iniciob AND :finb;
+        AND V.fecha_venta BETWEEN :inicio AND :fin
         ")->params($this->params)
         ->pipe($this->dataStore("totalpuntos"));        
     }

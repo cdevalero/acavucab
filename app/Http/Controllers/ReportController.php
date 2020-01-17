@@ -43,26 +43,21 @@ class ReportController extends Controller
     }
 
     public function totalpuntosView(Request $request){
-
+        
         $fecha=$request->all(":fin",":inicio");
         if ($fecha[":inicio"]==null){
             $fecha[":inicio"]="01-01-1900";
-            $fecha[":iniciob"]="01-01-1900";
         }
-        else $fecha[":iniciob"]=$fecha[":inicio"];
         if ($fecha[":fin"]==null){
-            $fecha[":finb"]="31-12-2100";
             $fecha[":fin"]="31-12-2100";
         }
-        else $fecha[":finb"]=$fecha[":fin"];
         $reporte = new totalpuntos($fecha);
         $reporte->run();
         return view("reporte.totalpuntos",["totalpuntos"=>$reporte]);
     }
 
     public function fichaProveedoresView()
-    {
-        $reporte = new fichaProveedores;
+    {   $reporte = new fichaProveedores;
         $reporte->run();
         return view("reporte.fichaProveedores",["fichaProveedores"=>$reporte]);
     }
@@ -73,8 +68,13 @@ class ReportController extends Controller
         return view("reporte.movinventarios",["movinventarios"=>$reporte]);
     }
 
-    public function ordenesView(){
-        $reporte = new ordenes;
+    public function ordenesView(Request $request){
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null)
+            $fecha[":inicio"]="01-01-1900";
+        if ($fecha[":fin"]==null)
+            $fecha[":fin"]="31-12-2100";
+        $reporte = new ordenes($fecha);
         $reporte->run();
         return view("reporte.ordenes",["ordenes"=>$reporte]);
     }
@@ -128,3 +128,15 @@ class ReportController extends Controller
         return view("reporte.asistencia",["asistencia"=>$reporte]);
     }
 }
+/*
+        $fecha=$request->all(":fin",":inicio");
+        if ($fecha[":inicio"]==null){
+            $fecha[":inicio"]="01-01-1900";
+            $fecha[":iniciob"]="01-01-1900";
+        }
+        else $fecha[":iniciob"]=$fecha[":inicio"];
+        if ($fecha[":fin"]==null){
+            $fecha[":finb"]="31-12-2100";
+            $fecha[":fin"]="31-12-2100";
+        }
+        else $fecha[":finb"]=$fecha[":fin"];*/

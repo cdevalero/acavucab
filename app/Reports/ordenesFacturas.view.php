@@ -14,6 +14,7 @@ use \koolreport\widgets\koolphp\Table;
             Table::create([
                 "dataSource"=>$this->dataStore("ordenesFacturas")
             ]);
+            
             return $this->dataStore("ordenesFacturas");
         ?>
     </body>

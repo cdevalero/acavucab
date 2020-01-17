@@ -147,7 +147,7 @@
                                 <h4 class="nomargin">{{ $details['name'] }}</h4>
                             </div>
                         </div>
-                    </td>
+                    </td> 
                     <td data-th="Precio">${{ $details['price'] }}</td>
                     <td data-th="Cantidad">
                         <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity" />
